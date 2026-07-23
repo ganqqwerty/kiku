@@ -33,6 +33,9 @@
     "apply": "tsc -b && COMMIT_SHA=${VERCEL_GIT_COMMIT_SHA:-$(git rev-parse HEAD)} vite build && vite-node ./script/generate-template.ts && vite-node ./script/copy-anki-build.ts && vite-node ./script/update-note-type.ts",
     "apply:fast": "FAST_BUILD=true vite build && vite-node ./script/generate-template.ts && vite-node ./script/copy-anki-build.ts && vite-node ./script/update-note-type.ts",
     "package": "vite-node ./script/package.ts",
+    "package-ru": "CI=true vite build && CI=true vite-node ./script/generate-template.ts && CI=true vite-node ./script/package-ru.ts",
+    "import-yarxi": "node ./preprocess/import-yarxi-from-anki-mcp.ts",
+    "localize-db-ru": "node ./preprocess/localize-kiku-db-ru.ts",
     "update-tailwind-property": "node ./script/update-tailwind-property.ts"
   },
   "dependencies": {

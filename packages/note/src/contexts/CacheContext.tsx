@@ -12,7 +12,7 @@ export function CacheContextProvider(props: { children: JSX.Element; cacheStore:
 
 export function useCacheContext() {
   const cacheStore = useContext(CacheContext);
-  if (!cacheStore) throw new Error("Missing CacheContext");
+  if (!cacheStore) throw new Error("Отсутствует контекст кэша");
   return cacheStore;
 }
 

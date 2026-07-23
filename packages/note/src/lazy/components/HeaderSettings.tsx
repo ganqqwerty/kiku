@@ -21,7 +21,7 @@ export function HeaderSettings() {
       <div class="flex flex-row gap-2 items-center">
         <Switch>
           <Match when={$$ankiConnect.loading}>
-            <div class="text-sm text-base-content-calm">Checking AnkiConnect...</div>
+            <div class="text-sm text-base-content-calm">Проверка AnkiConnect…</div>
           </Match>
           <Match when={$$ankiConnect.error || $$ankiConnect.state === "unresolved"}>
             <div class="flex items-center gap-0.5">
@@ -30,7 +30,7 @@ export function HeaderSettings() {
                   on:click={async () => {
                     await $checkAnkiConnect({
                       onFail: () => {
-                        $general.toast.error("AnkiConnect is not available");
+                        $general.toast.error("AnkiConnect недоступен");
                       },
                     });
                   }}
@@ -42,12 +42,12 @@ export function HeaderSettings() {
               </div>
 
               <Show when={$$ankiConnect.error}>
-                <div class="text-sm text-base-content-calm">AnkiConnect is not available</div>
+                <div class="text-sm text-base-content-calm">AnkiConnect недоступен</div>
               </Show>
             </div>
           </Match>
           <Match when={$$ankiConnect.state === "ready"}>
-            <div class="text-sm text-base-content-calm">AnkiConnect is available</div>
+            <div class="text-sm text-base-content-calm">AnkiConnect доступен</div>
             <div class="status status-success"></div>
           </Match>
         </Switch>

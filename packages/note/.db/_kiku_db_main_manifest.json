@@ -2,12 +2,12 @@
   "files": {
     "kiku_db_kanji_compact.json.gz": {
       "start": 512,
-      "end": 451912,
-      "size": 451401
+      "end": 285108,
+      "size": 284597
     },
     "kiku_db_terms_compact.json.gz": {
-      "start": 452608,
-      "end": 2742909,
+      "start": 285696,
+      "end": 2575997,
       "size": 2290302
     }
   }

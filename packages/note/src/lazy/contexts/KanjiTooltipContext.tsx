@@ -99,7 +99,7 @@ export function KanjiTooltipContextProvider(props: { children: JSX.Element }) {
 
 export function useKanjiTooltipContext() {
   const context = useContext(KanjiTooltipContext);
-  if (!context) throw new Error("Missing KanjiTooltipContext");
+  if (!context) throw new Error("Отсутствует контекст подсказки кандзи");
   return context;
 }
 
@@ -203,7 +203,7 @@ function KanjiTooltip() {
               <KanjiContextProvider kanji={$kanjiTooltip.kanji}>
                 <Suspense
                   fallback={
-                    <div class="animate-pulse text-base-content-soft text-sm">Loading...</div>
+                    <div class="animate-pulse text-base-content-soft text-sm">Загрузка…</div>
                   }
                 >
                   <$KanjiInfo />

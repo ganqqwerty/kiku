@@ -375,8 +375,8 @@ export class WorkerThreadApi {
         { cache: "no-store" },
       )) as KikuDbMainManifest;
     } catch {
-      this.log.error("Failed to load db main manifest");
-      throw new Error("Failed to load db main manifest");
+      this.log.error("Не удалось загрузить манифест основной базы данных");
+      throw new Error("Не удалось загрузить манифест основной базы данных");
     }
     this.cache.set(key, manifest);
     return manifest;
@@ -392,7 +392,7 @@ export class WorkerThreadApi {
         { cache: "no-store" },
       )) as KikuNotesManifest;
     } catch {
-      throw new Error("Failed to load manifest");
+      throw new Error("Не удалось загрузить манифест заметок");
     }
     this.cache.set(key, manifest);
     return manifest;
@@ -401,11 +401,11 @@ export class WorkerThreadApi {
 
 function gunzipArrayBuffer(buf: ArrayBuffer) {
   if (buf.byteLength === 0) {
-    throw new Error("No body for empty buffer");
+    throw new Error("Получен пустой буфер данных");
   }
   const res = new Response(buf);
   if (!res.body) {
-    throw new Error("No body for buffer");
+    throw new Error("В буфере отсутствуют данные");
   }
   const ds = new DecompressionStream("gzip");
   const decompressed = res.body.pipeThrough(ds);

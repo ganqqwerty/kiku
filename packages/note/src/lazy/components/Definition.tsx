@@ -43,22 +43,22 @@ export function Definition() {
       const combined = [selection, main, glossary].filter(Boolean);
       if (combined.length > 0) {
         const html = combined.join('<div class="divider my-4"></div>');
-        p.push({ name: "Definition", html });
+        p.push({ name: "Определение", html });
       }
       return p;
     }
 
     if (selection) {
-      p.push({ name: "Selection Text", html: selection });
+      p.push({ name: "Выбранный текст", html: selection });
     }
     if (main) {
-      let name = "Main Definition";
+      let name = "Основное определение";
       if ($config.definitionStyle === "glossary-split") {
         const doc = parseHtml(main);
         const li = doc.querySelector("li[data-dictionary]");
         const dictName = li?.getAttribute("data-dictionary");
         if (dictName) {
-          name = `Main Definition (${dictName})`;
+          name = `Основное определение (${dictName})`;
         }
       }
       p.push({ name, html: main });
@@ -73,7 +73,7 @@ export function Definition() {
           .join("");
         const dictGroups = new Map<string, string>();
         for (const li of entries) {
-          const dictName = li.getAttribute("data-dictionary") || "Glossary";
+          const dictName = li.getAttribute("data-dictionary") || "Словарная статья";
           const prevHtml = dictGroups.get(dictName);
           const divider = prevHtml ? '<div class="divider"></div>' : "";
           dictGroups.set(dictName, (prevHtml || "") + divider + li.outerHTML);
@@ -85,7 +85,7 @@ export function Definition() {
           });
         }
       } else {
-        p.push({ name: "Glossary", html: glossary });
+        p.push({ name: "Словарная статья", html: glossary });
       }
     }
     return p;
@@ -169,7 +169,7 @@ export function Definition() {
 
       <dialog class="modal" ref={$setModalRef}>
         <div class="modal-box max-w-sm max-h-[80svh] flex flex-col p-4 gap-2">
-          <h3 class="font-bold text-lg px-2 text-center">Select Page</h3>
+          <h3 class="font-bold text-lg px-2 text-center">Выберите страницу</h3>
           <div class="flex flex-col gap-1 overflow-auto p-2">
             <For each={$pages()}>
               {(page, i) => (
@@ -193,13 +193,13 @@ export function Definition() {
           <div class="modal-action mt-2">
             <form method="dialog">
               <button class="btn btn-sm" on:touchend={(e) => e.stopPropagation()}>
-                Close
+                Закрыть
               </button>
             </form>
           </div>
         </div>
         <form method="dialog" class="modal-backdrop">
-          <button on:touchend={(e) => e.stopPropagation()}>Close</button>
+          <button on:touchend={(e) => e.stopPropagation()}>Закрыть</button>
         </form>
       </dialog>
     </>

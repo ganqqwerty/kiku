@@ -54,7 +54,7 @@ export function AnkiFieldContextProvider(props: {
 
 export function useAnkiFieldContext() {
   const ankiField = useContext(AnkiFieldsContext);
-  if (!ankiField) throw new Error("Missing AnkiFieldContext");
+  if (!ankiField) throw new Error("Отсутствует контекст полей Anki");
   return ankiField;
 }
 
@@ -80,6 +80,6 @@ export function RootAnkiFieldsContextProvider(props: { children: JSX.Element }) 
 
 export function useRootAnkiFieldsContext() {
   const value = useContext(RootAnkiFieldsContext);
-  if (!value) throw new Error("Missing RootAnkiFieldsContext");
+  if (!value) throw new Error("Отсутствует корневой контекст полей Anki");
   return value;
 }

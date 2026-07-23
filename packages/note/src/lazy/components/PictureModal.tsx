@@ -61,7 +61,7 @@ export function PictureModal() {
             }}
             on:touchend={(e) => e.stopPropagation()}
           >
-            {$showAll() ? "Back to image" : "All images"}
+            {$showAll() ? "Вернуться к изображению" : "Все изображения"}
           </button>
         </div>
 

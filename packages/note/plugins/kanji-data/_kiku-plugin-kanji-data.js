@@ -231,7 +231,7 @@ const CIRCLED_NUMBERS = [
  */
 export default (options) => {
   const defaultOpen = options?.defaultOpen ?? true;
-  const collapseTitle = options?.collapseTitle ?? "Extra Info";
+  const collapseTitle = options?.collapseTitle ?? "Дополнительная информация";
   const showVisuallySimilar = options?.showVisuallySimilar ?? true;
   const showComposedOf = options?.showComposedOf ?? true;
   const showUsedIn = options?.showUsedIn ?? true;
@@ -291,27 +291,27 @@ export default (options) => {
             h(ReadingsSection, { data: k }),
             h("div", { class: "flex flex-row gap-1 items-start" }, [
               h("div", { class: "misc-badge text-base-content-calm" }, [
-                h("span", {}, "部首: "),
+                h("span", {}, "Ключ: "),
                 h("span", {}, `${k.radical} (${k.radicalName})`),
               ]),
               h("div", { class: "misc-badge text-base-content-calm" }, [
                 h("span", {}, k.stroke),
-                h("span", {}, "画"),
+                h("span", {}, " черт"),
               ]),
             ]),
             h("div", { class: "flex flex-row gap-2 items-start" }, [
               h("div", { class: `badge-origin ${kankenLevelBadge[k.level]}` }, [
-                h("span", {}, "漢検"),
+                h("span", {}, "Канкэн"),
                 h("span", {}, k.level),
               ]),
               h(Show, { when: k.joyo }, () =>
-                h("div", { class: "badge-origin badge-joyo" }, "常用"),
+                h("div", { class: "badge-origin badge-joyo" }, "Дзёё"),
               ),
               h(Show, { when: k.kyoiku }, () =>
-                h("div", { class: "badge-origin badge-kyoiku" }, "教育"),
+                h("div", { class: "badge-origin badge-kyoiku" }, "Кёику"),
               ),
               h(Show, { when: k.kokuji }, () =>
-                h("div", { class: "badge-origin badge-kokuji" }, "国字"),
+                h("div", { class: "badge-origin badge-kokuji" }, "Кокудзи"),
               ),
             ]),
           ]),
@@ -328,7 +328,7 @@ export default (options) => {
             h(
               "div",
               { class: "info-header pb-1" },
-              h("div", { class: "flex gap-2 items-center" }, ["成り立ち"]),
+              h("div", { class: "flex gap-2 items-center" }, ["Происхождение"]),
             ),
             h(
               "div",
@@ -361,7 +361,7 @@ export default (options) => {
        */
       function MeaningsSection({ data: k }) {
         return h("div", { class: "info-section" }, [
-          h("div", { class: "info-header" }, "意味"),
+          h("div", { class: "info-header" }, "Значения"),
           h(
             "div",
             { class: "flex flex-col gap-1" },
@@ -407,7 +407,7 @@ export default (options) => {
           h("div", { class: "flex flex-col gap-2" }, [
             h(Show, { when: k.on.length > 0 || k.onGai.length > 0 }, () =>
               h("div", { class: "reading-row" }, [
-                h("span", { class: "font-bold" }, "音"),
+                h("span", { class: "font-bold" }, "Он"),
                 h("div", { class: "reading-container" }, [
                   h(For, { each: k.on }, (/** @type {string} */ r) =>
                     h(
@@ -433,7 +433,7 @@ export default (options) => {
             ),
             h(Show, { when: k.kun.length > 0 || k.kunGai.length > 0 }, () =>
               h("div", { class: "reading-row" }, [
-                h("span", { class: "font-bold" }, "訓"),
+                h("span", { class: "font-bold" }, "Кун"),
                 h("div", { class: "reading-container" }, [
                   h(For, { each: k.kun }, (/** @type {string} */ r) =>
                     h(
@@ -485,7 +485,7 @@ export default (options) => {
       function KadokawaSection({ data: k }) {
         return h(Show, { when: k.kadokawaNaritachi }, () =>
           h("div", { class: "info-section flex-1" }, [
-            h("div", { class: "info-header" }, "古代文字"),
+            h("div", { class: "info-header" }, "Древние начертания"),
             h("div", { class: "flex gap-2 justify-between" }, [
               h("div", {
                 class: "kadokawa-origin-text",
@@ -503,14 +503,14 @@ export default (options) => {
       function BigKanjiSection({ data: k }) {
         return h(Show, { when: k.kyujitai || k.itaiji }, () =>
           h("div", { class: "info-section flex-1" }, [
-            h("div", { class: "info-header" }, "別字体"),
+            h("div", { class: "info-header" }, "Варианты начертания"),
             h("div", { class: "flex gap-2" }, [
               h("div", { class: "flex gap-2" }, [
                 h(Show, { when: k.kyujitai }, (/** @type {() => {value: string}} */ v) => {
-                  return BigKanji({ header: "旧字体", kanji: v().value });
+                  return BigKanji({ header: "Старая форма", kanji: v().value });
                 }),
                 h(Show, { when: k.itaiji }, (/** @type {() => {value: string}} */ v) => {
-                  return BigKanji({ header: "異体字", kanji: v().value });
+                  return BigKanji({ header: "Вариант", kanji: v().value });
                 }),
               ]),
             ]),

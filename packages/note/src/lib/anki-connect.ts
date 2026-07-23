@@ -52,7 +52,7 @@ export const AnkiConnect = {
 
     if (!frontRes.ok || !backRes.ok || !styleRes.ok) {
       throw new Error(
-        `Failed to load template files: ${[
+        `Не удалось загрузить файлы шаблона: ${[
           !frontRes.ok && constants.assets["_kiku_front.html"],
           !backRes.ok && constants.assets["_kiku_back.html"],
           !styleRes.ok && constants.assets["_kiku_style.css"],

@@ -218,7 +218,7 @@ export function KeybindInput(props: { label: string; configKey: StringConfigKey 
         on:touchend={(e) => e.stopPropagation()}
         on:keydown={onKeyDown}
       >
-        {$isRecording() ? "Press any key..." : ($config[props.configKey] as string)}
+        {$isRecording() ? "Нажмите любую клавишу…" : ($config[props.configKey] as string)}
       </button>
     </fieldset>
   );

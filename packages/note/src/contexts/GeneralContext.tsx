@@ -168,7 +168,7 @@ export function GeneralContextProvider(props: {
 
 export function useGeneralContext() {
   const generalContext = useContext(GeneralContext);
-  if (!generalContext) throw new Error("Missing GeneralContext");
+  if (!generalContext) throw new Error("Отсутствует общий контекст");
   return Object.assign(
     createCompatPair(
       "$general",

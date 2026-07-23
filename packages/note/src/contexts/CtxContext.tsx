@@ -70,6 +70,6 @@ export function CtxContextProvider(props: { children: JSX.Element }) {
 
 export function useCtxContext() {
   const ctx = useContext(CtxContext);
-  if (!ctx) throw new Error("Missing CtxContext");
+  if (!ctx) throw new Error("Отсутствует контекст Kiku");
   return ctx;
 }

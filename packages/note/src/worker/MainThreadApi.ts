@@ -10,7 +10,7 @@ export class MainThreadApi {
   async fetchJson(url: string, init?: RequestInit): Promise<unknown> {
     const res = await fetch(url, init);
     if (!res.ok) {
-      throw new Error(`Failed to fetch JSON from ${url}: ${res.status}`);
+      throw new Error(`Не удалось загрузить JSON с ${url}: ${res.status}`);
     }
     return res.json() as Promise<unknown>;
   }

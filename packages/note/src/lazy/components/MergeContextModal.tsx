@@ -50,20 +50,20 @@ export function MergeContextModal() {
         const noteIds = await AnkiConnect.invoke("findNotes", { query: `cid:${rootCardId}` });
         const rootNoteId = noteIds?.result[0] as number | undefined;
 
-        if (!rootNoteId) throw new Error("Failed to get root note id");
-        if (!currentNoteId) throw new Error("Failed to get current note id");
+        if (!rootNoteId) throw new Error("Не удалось получить ID исходной заметки");
+        if (!currentNoteId) throw new Error("Не удалось получить ID текущей заметки");
 
         const notes = await AnkiConnect.invoke("notesInfo", { notes: [rootNoteId, currentNoteId] });
         const rootNote = notes?.result[0] as AnkiNote | undefined;
         const currentNote = notes?.result[1] as AnkiNote | undefined;
 
-        if (!rootNote?.noteId) throw new Error("Failed to load root note");
+        if (!rootNote?.noteId) throw new Error("Не удалось загрузить исходную заметку");
         if (!currentNote?.noteId)
-          throw new Error("Failed to load current note, is your notes cache up to date?");
+          throw new Error("Не удалось загрузить текущую заметку. Кэш заметок обновлён?");
 
         return { rootNote, currentNote };
       } catch (e) {
-        $general.toast.error(e instanceof Error ? e.message : "Failed to load notes");
+        $general.toast.error(e instanceof Error ? e.message : "Не удалось загрузить заметки");
         logger.error(e);
         throw e;
       }
@@ -109,7 +109,7 @@ export function MergeContextModal() {
                 on:click={async () => {
                   await $checkAnkiConnect({
                     onFail: () => {
-                      $general.toast.error("AnkiConnect is not available");
+                      $general.toast.error("AnkiConnect недоступен");
                     },
                   });
                   refetch();
@@ -235,11 +235,11 @@ function $Dialog(props: {
       .catch((e) => {
         logger.error("[MergeContext] updateNote failed:", e);
         $general.toast.error(
-          `Failed to update note fields: ${e instanceof Error ? e.message : ""}`,
+          `Не удалось обновить поля заметки: ${e instanceof Error ? e.message : ""}`,
         );
       })
       .then(() => {
-        $general.toast.success(`Note ${payload?.note.id} has been updated!`);
+        $general.toast.success(`Заметка ${payload?.note.id} обновлена!`);
         if (dialogRef) dialogRef.close();
         const rootNoteId = $$rootNote()?.noteId;
         if ($deleteRootNote() && rootNoteId) {
@@ -250,12 +250,12 @@ function $Dialog(props: {
               .catch((e) => {
                 logger.error("[MergeContext] deleteNotes failed:", e);
                 $general.toast.error(
-                  `Failed to delete note: ${e instanceof Error ? e.message : ""}`,
+                  `Не удалось удалить заметку: ${e instanceof Error ? e.message : ""}`,
                 );
               })
               .then(() => {
                 $general.toast.success(
-                  `Note ${payload?.note.id} has been updated! Note ${rootNoteId} has been deleted!`,
+                  `Заметка ${payload?.note.id} обновлена, заметка ${rootNoteId} удалена!`,
                 );
               });
           }, 500);
@@ -273,17 +273,17 @@ function $Dialog(props: {
     <Portal mount={$general.layoutRef}>
       <dialog class="modal" ref={$setDialogRef}>
         <div class="modal-box max-h-[80svh]">
-          <h3 class="text-lg font-bold mb-4">Merge Context</h3>
+          <h3 class="text-lg font-bold mb-4">Объединение контекста</h3>
 
           <div class="flex flex-col gap-4">
             <div class="flex gap-4 items-center justify-center">
               <div class="flex flex-col items-center">
-                <div>Root</div>
+                <div>Исходная</div>
                 <div class="text-base-content-calm text-xs">{$$rootNote()?.noteId}</div>
                 <Show when={$$rootNote()?.noteId}>
                   {(id) => (
                     <div class="text-base-content-soft text-xs">
-                      {new Date(id()).toLocaleDateString()}
+                      {new Date(id()).toLocaleDateString("ru")}
                     </div>
                   )}
                 </Show>
@@ -306,12 +306,12 @@ function $Dialog(props: {
                 />
               </button>
               <div class="flex flex-col items-center">
-                <div>Current</div>
+                <div>Текущая</div>
                 <div class="text-base-content-calm text-xs">{$$currentNote()?.noteId}</div>
                 <Show when={$$currentNote()?.noteId}>
                   {(id) => (
                     <div class="text-base-content-soft text-xs">
-                      {new Date(id()).toLocaleDateString()}
+                      {new Date(id()).toLocaleDateString("ru")}
                     </div>
                   )}
                 </Show>
@@ -326,31 +326,31 @@ function $Dialog(props: {
               }
             >
               <div role="alert" class="alert alert-warning">
-                Root and Current have different Expression
+                В исходной и текущей заметках разные выражения
               </div>
             </Show>
 
             <Show when={$$hasDuplicates()}>
               <div role="alert" class="alert alert-warning">
-                Some fields have duplicates data-group-id
+                В некоторых полях повторяются значения data-group-id
               </div>
             </Show>
 
             <div class="flex flex-col gap-2">
-              <FieldPreview title="Sentence" content={$$mergedReadable().Sentence} />
+              <FieldPreview title="Предложение" content={$$mergedReadable().Sentence} />
               <FieldPreview
-                title="SentenceTranslation"
+                title="Перевод предложения"
                 content={$$mergedReadable().SentenceTranslation}
               />
               <FieldPreview
-                title="SentenceFurigana"
+                title="Фуригана предложения"
                 content={$$mergedReadable().SentenceFurigana}
               />
-              <FieldPreview title="SentenceAudio" content={$$mergedReadable().SentenceAudio} />
-              <FieldPreview title="MiscInfo" content={$$mergedReadable().MiscInfo} />
-              <FieldPreview title="Picture" content={$$mergedReadable().Picture} />
+              <FieldPreview title="Аудио предложения" content={$$mergedReadable().SentenceAudio} />
+              <FieldPreview title="Доп. информация" content={$$mergedReadable().MiscInfo} />
+              <FieldPreview title="Изображение" content={$$mergedReadable().Picture} />
               <FieldPreview
-                title="AnkiConnect Payload Preview"
+                title="Предпросмотр данных AnkiConnect"
                 content={JSON.stringify($$updateNoteFieldsPayload(), null, 2)}
               />
             </div>
@@ -363,7 +363,7 @@ function $Dialog(props: {
               }
             >
               <fieldset class="fieldset">
-                <legend class="fieldset-legend">Delete Root Note</legend>
+                <legend class="fieldset-legend">Удалить исходную заметку</legend>
                 <label class="label">
                   <input
                     type="checkbox"
@@ -380,8 +380,8 @@ function $Dialog(props: {
             <Show when={!$config.preferAnkiConnect}>
               <div role="alert" class="alert alert-warning">
                 <span>
-                  To prevent unwanted result caused by stale notes cache, please enable{" "}
-                  <b>"Prefer AnkiConnect"</b> in Settings.
+                  Чтобы устаревший кэш не привёл к ошибочному результату, включите{" "}
+                  <b>«Предпочитать AnkiConnect»</b> в настройках.
                 </span>
               </div>
             </Show>
@@ -390,7 +390,7 @@ function $Dialog(props: {
           <div class="modal-action">
             <form method="dialog">
               <button class="btn" on:touchend={(e) => e.stopPropagation()}>
-                Close
+                Закрыть
               </button>
             </form>
             <button
@@ -398,7 +398,7 @@ function $Dialog(props: {
               on:click={onPreviewClick}
               on:touchend={(e) => e.stopPropagation()}
             >
-              Preview
+              Предпросмотр
             </button>
             <button
               class="btn"
@@ -410,13 +410,13 @@ function $Dialog(props: {
               on:click={onMergeClick}
               on:touchend={(e) => e.stopPropagation()}
             >
-              Merge
+              Объединить
             </button>
           </div>
         </div>
 
         <form method="dialog" class="modal-backdrop">
-          <button on:touchend={(e) => e.stopPropagation()}>Close</button>
+          <button on:touchend={(e) => e.stopPropagation()}>Закрыть</button>
         </form>
       </dialog>
     </Portal>

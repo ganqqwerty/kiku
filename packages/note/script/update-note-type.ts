@@ -1,14 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { basename } from "node:path";
-import {
-  generateCssVars,
-  generateCssVarsDark,
-  getCssVar,
-  getCssVarDark,
-} from "#/src/lib/config.js";
-import { defaultConfig } from "#/src/lib/default-config.js";
 import { paths } from "#/tools/paths.ts";
 import { AnkiConnect, log } from "#/tools/util.js";
+import { applyDefaultDataAttributes, applyDefaultStyleVariables } from "./model-template.ts";
 
 class Script {
   NOTE_TYPE = "Kiku";
@@ -25,23 +19,6 @@ class Script {
     ]);
 
     return { front, back, style };
-  }
-
-  applyDataAttributes(template: string) {
-    return template
-      .replaceAll("__DATA_THEME__", defaultConfig.theme)
-      .replaceAll("__DATA_THEME_DARK__", defaultConfig.themeDark)
-      .replace("__DATA_BLUR_NSFW__", defaultConfig.blurNsfw.toString())
-      .replace("__DATA_PICTURE_ON_FRONT__", defaultConfig.pictureOnFront.toString())
-      .replace("__DATA_MOD_VERTICAL__", defaultConfig.modVertical.toString());
-  }
-
-  buildStyleTemplate(styleSrc: string) {
-    const cssVars = generateCssVars(getCssVar(defaultConfig));
-    const cssVarsDark = generateCssVarsDark(getCssVarDark(defaultConfig));
-    return styleSrc
-      .replace("/* __CSS_VARIABLE__ */", cssVars)
-      .replace("/* __CSS_VARIABLE_DARK__ */", cssVarsDark);
   }
 
   async updateTemplates(frontSrc: string, backSrc: string) {
@@ -77,9 +54,9 @@ class Script {
 
   async run() {
     const { front, back, style } = await this.readTemplates();
-    const frontTemplate = this.applyDataAttributes(front);
-    const backTemplate = this.applyDataAttributes(back);
-    const styleTemplate = this.buildStyleTemplate(style);
+    const frontTemplate = applyDefaultDataAttributes(front);
+    const backTemplate = applyDefaultDataAttributes(back);
+    const styleTemplate = applyDefaultStyleVariables(style);
     await this.updateTemplates(frontTemplate, backTemplate);
     await this.updateStyling(styleTemplate);
   }

@@ -115,7 +115,7 @@ export function CardStoreContextProvider(props: {
 
 export function useCardContext() {
   const cardStore = useContext(CardStoreContext);
-  if (!cardStore) throw new Error("Missing CardStoreContext");
+  if (!cardStore) throw new Error("Отсутствует контекст карточки");
   return Object.assign(createCompatPair("$card", "$setCard", cardStore.$card, cardStore.$setCard), {
     ...cardStore,
   });

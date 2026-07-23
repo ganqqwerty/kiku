@@ -97,7 +97,7 @@ export function KanjiPageContextProvider(props: {
 
 export function useKanjiPageContext() {
   const kanjiPageStore = useContext(KanjiPageContext);
-  if (!kanjiPageStore) throw new Error("Missing KanjiPageContext");
+  if (!kanjiPageStore) throw new Error("Отсутствует контекст страницы кандзи");
   return Object.assign(
     createCompatPair(
       "$kanjiPage",

@@ -28,7 +28,7 @@ export function $KanjiInfo() {
         }}
       >
         <span class="inline-flex flex-wrap gap-x-1 sm:gap-x-2">
-          <span>Keyword: </span>
+          <span>Значение: </span>
           <span>{capitalizeSentence($$info()?.keyword)}</span>
         </span>
       </div>
@@ -38,7 +38,7 @@ export function $KanjiInfo() {
         }}
       >
         <span class="inline-flex flex-wrap gap-x-1 sm:gap-x-2">
-          <span>Frequency: </span>
+          <span>Частотность: </span>
           <span>{$$info()?.frequency}</span>
         </span>
       </div>
@@ -48,7 +48,7 @@ export function $KanjiInfo() {
         }}
       >
         <span class="inline-flex flex-wrap gap-x-1 sm:gap-x-2 gap-y-0.5">
-          <span>Reading: </span>
+          <span>Чтение: </span>
           <For each={$$info()?.readings}>
             {(reading) => {
               return (
@@ -126,7 +126,7 @@ export function $KanjiInfoExtra(props: { inKanjiPage?: boolean }) {
             }}
           />
           <div class="collapse-title p-0 mb-1 after:text-base-content-calm text-start">
-            <div class="font-bold text-base-content-calm">Visually Similar</div>
+            <div class="font-bold text-base-content-calm">Визуально похожие</div>
           </div>
           <div class="collapse-content p-0">
             <div class="flex gap-1 sm:gap-2 flex-wrap text-base-content-calm">
@@ -171,7 +171,7 @@ export function $KanjiInfoExtra(props: { inKanjiPage?: boolean }) {
             }}
           />
           <div class="collapse-title p-0 mb-1 after:text-base-content-calm text-start">
-            <div class="font-bold text-base-content-calm">Composed of</div>
+            <div class="font-bold text-base-content-calm">Состоит из</div>
           </div>
           <div class="collapse-content p-0">
             <div class="flex gap-1 sm:gap-2 flex-wrap text-base-content-calm">
@@ -216,7 +216,7 @@ export function $KanjiInfoExtra(props: { inKanjiPage?: boolean }) {
             }}
           />
           <div class="collapse-title p-0 mb-1 after:text-base-content-calm text-start">
-            <div class="font-bold text-base-content-calm">Used in</div>
+            <div class="font-bold text-base-content-calm">Используется в</div>
           </div>
           <div class="collapse-content p-0">
             <div class="flex gap-1 sm:gap-2 flex-wrap text-base-content-calm">
@@ -261,7 +261,7 @@ export function $KanjiInfoExtra(props: { inKanjiPage?: boolean }) {
             }}
           />
           <div class="collapse-title p-0 mb-1 after:text-base-content-calm text-start">
-            <div class="font-bold text-base-content-calm">Meanings</div>
+            <div class="font-bold text-base-content-calm">Значения</div>
           </div>
           <div class="collapse-content p-0">
             <div class="flex gap-1 sm:gap-2 flex-wrap text-base-content-calm">
@@ -293,7 +293,7 @@ export function $KanjiInfoExtra(props: { inKanjiPage?: boolean }) {
             }}
           />
           <div class="collapse-title p-0 mb-1 after:text-base-content-calm text-start">
-            <div class="font-bold text-base-content-calm">Related</div>
+            <div class="font-bold text-base-content-calm">Связанные</div>
           </div>
           <div class="collapse-content p-0">
             <div class="flex gap-1 sm:gap-2 flex-wrap text-base-content-calm">

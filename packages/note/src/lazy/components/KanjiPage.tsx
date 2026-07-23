@@ -27,7 +27,7 @@ import {
   KanjiPageContextProvider,
   useKanjiPageContext,
 } from "#/src/lazy/contexts/KanjiPageContext";
-import { capitalize } from "#/src/lib/text";
+import { getRussianSourceName } from "#/src/lib/ru";
 
 export function KanjiPage() {
   return (
@@ -67,15 +67,15 @@ function Page() {
 
   const $title = createMemo(() => {
     if ($kanjiPage.tab === "kanji") {
-      if (contextLabel?.type === "similar") return "Similar";
-      if (contextLabel?.type === "composedOf") return "Composed of";
-      if (contextLabel?.type === "usedIn") return "Used in";
-      if (contextLabel?.type === "related") return "Related";
-      return "Same Kanji";
+      if (contextLabel?.type === "similar") return "Похожие";
+      if (contextLabel?.type === "composedOf") return "Состоит из";
+      if (contextLabel?.type === "usedIn") return "Используется в";
+      if (contextLabel?.type === "related") return "Связанные";
+      return "Тот же кандзи";
     }
-    if ($kanjiPage.tab === "reading") return "Same Reading";
-    if ($kanjiPage.tab === "same") return "Same Expression";
-    if ($kanjiPage.tab === "related") return "Related";
+    if ($kanjiPage.tab === "reading") return "То же чтение";
+    if ($kanjiPage.tab === "same") return "То же выражение";
+    if ($kanjiPage.tab === "related") return "Связанные";
   });
 
   const $doc = createMemo(() => parseHtml(initialAnkiFields.ExpressionFurigana));
@@ -259,7 +259,8 @@ function $QueryInfo() {
       </Show>
       <Show when={$$notesManifest() && $$card()?.isNotesCache}>
         <div class="text-base-content-faint text-sm">
-          [Notes Cache] Updated at {new Date($$notesManifest()?.generatedAt ?? 0).toLocaleString()}
+          [Кэш заметок] Обновлён{" "}
+          {new Date($$notesManifest()?.generatedAt ?? 0).toLocaleString("ru")}
         </div>
       </Show>
     </div>
@@ -510,7 +511,7 @@ function AnkiNoteItem(props: { data: AnkiNote; highlightedKanji?: string; source
                           "badge-warning": s === "referenced",
                         }}
                       >
-                        {capitalize(s)}
+                        {getRussianSourceName(s)}
                       </span>
                     )}
                   </For>

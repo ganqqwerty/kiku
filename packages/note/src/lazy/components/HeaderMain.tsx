@@ -1,6 +1,6 @@
 import { createMemo, createUniqueId, ErrorBoundary, Match, Show, Suspense, Switch } from "solid-js";
 import { useNavigationTransition, useThemeTransition } from "#/src/hooks/transition";
-import { capitalize } from "#/src/lib/text";
+import { getRussianThemeName } from "#/src/lib/ru";
 import { useCardContext } from "#/src/contexts/CardContext";
 import { useConfigContext } from "#/src/contexts/ConfigContext";
 import { useGeneralContext } from "#/src/contexts/GeneralContext";
@@ -54,14 +54,14 @@ export function HeaderMain(props: { onExitNested?: () => void }) {
               >
                 <PaintbrushIcon class="size-5 cursor-pointer text-base-content-soft"></PaintbrushIcon>
                 <span class="text-base-content-soft text-xs sm:text-sm">
-                  {capitalize(initialDarkMode ? $config.themeDark : $config.theme)}
+                  {getRussianThemeName(initialDarkMode ? $config.themeDark : $config.theme)}
                 </span>
               </button>
             </Show>
             <Show when={$config.showStartupTime}>
               <div class="text-base-content-soft bg-warning/10 rounded-sm px-px sm:px-1 text-xs sm:text-sm">
                 {Math.round($preStartupTime() + $startupTime())}
-                {$preStartupTime() + $startupTime() !== 0 && "ms"}
+                {$preStartupTime() + $startupTime() !== 0 && " мс"}
               </div>
             </Show>
           </Match>

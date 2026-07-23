@@ -4,6 +4,7 @@ dist
 .venv
 .env
 .turbo
+.codegraph/
 __pycache__
 .circularDependency.json
 
@@ -36,4 +37,3 @@ apps/docs/.vitepress/cache
 .lazy.lua
 .TODO.md
 AGENTS.md
-

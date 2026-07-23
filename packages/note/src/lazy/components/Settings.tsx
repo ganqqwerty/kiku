@@ -27,8 +27,8 @@ import {
 } from "#/src/lib/config";
 import { constants } from "#/src/lib/contants";
 import { useNavigationTransition, useThemeTransition } from "#/src/hooks/transition";
-import { capitalize } from "#/src/lib/text";
 import { daisyUIThemes, type DaisyUITheme } from "#/src/lib/theme";
+import { getRussianThemeName } from "#/src/lib/ru";
 import { useAnkiFieldContext } from "#/src/contexts/AnkiFieldsContext";
 import { useConfigContext } from "#/src/contexts/ConfigContext";
 import { useCtxContext } from "#/src/contexts/CtxContext";
@@ -74,9 +74,11 @@ export function Settings() {
     try {
       logger.debug("Saving config:", $config);
       await AnkiConnect.saveConfig($config);
-      $general.toast.success("Saved! Restart Anki to apply changes.");
+      $general.toast.success("Сохранено! Перезапустите Anki, чтобы применить изменения.");
     } catch (e) {
-      $general.toast.error(`Failed to save config: ${e instanceof Error ? e.message : ""}`);
+      $general.toast.error(
+        `Не удалось сохранить настройки: ${e instanceof Error ? e.message : ""}`,
+      );
     }
   };
 
@@ -129,7 +131,7 @@ export function Settings() {
                   on:click={() => navigateBack()}
                   on:touchend={(e) => e.stopPropagation()}
                 >
-                  Back
+                  Назад
                 </button>
                 <button
                   class="btn pointer-events-auto"
@@ -141,7 +143,7 @@ export function Settings() {
                   on:click={saveConfig}
                   on:touchend={(e) => e.stopPropagation()}
                 >
-                  Save
+                  Сохранить
                 </button>
               </div>
             </div>
@@ -190,7 +192,7 @@ function KikuVersion(props: { latestVersion?: string | null }) {
       <div
         classList={{ tooltip: !!$version() }}
         class="tooltip-bottom tooltip-info flex gap-2 items-center"
-        data-tip={$version() ? `Update Available: v${$version()}` : undefined}
+        data-tip={$version() ? `Доступно обновление: v${$version()}` : undefined}
       >
         <a
           href="https://github.com/youyoumu/kiku/releases/latest"
@@ -198,7 +200,7 @@ function KikuVersion(props: { latestVersion?: string | null }) {
           rel="noreferrer"
           class="text-sm"
         >
-          Kiku Note v{constants.VERSION}
+          Kiku RU v{constants.VERSION}
         </a>
         <a
           href={`https://github.com/youyoumu/kiku/commit/${constants.COMMIT_SHA}`}
@@ -242,33 +244,34 @@ function GeneralSettings() {
       <Show when={$showOutOfSync()}>
         <div role="alert" class="alert alert-warning">
           <span>
-            The card template is out of sync with your current theme or display settings. Until you
-            click Save and restart Anki, there might be a flash of the wrong theme.
+            Шаблон карточки не соответствует текущей теме или настройкам отображения. Пока вы не
+            нажмёте «Сохранить» и не перезапустите Anki, при открытии может кратко появляться
+            неверная тема.
           </span>
         </div>
       </Show>
-      <SectionTitle>General</SectionTitle>
+      <SectionTitle>Основные</SectionTitle>
       <div class="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] sm:grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] rounded-box gap-2 sm:gap-4">
-        <ToggleSetting configKey="blurNsfw" label="Blur NSFW" />
-        <ToggleSetting configKey="pictureOnFront" label="Picture on Front" />
+        <ToggleSetting configKey="blurNsfw" label="Размывать NSFW" />
+        <ToggleSetting configKey="pictureOnFront" label="Изображение на лицевой стороне" />
         <ToggleSetting
           configKey="muteNsfw"
-          label="Mute NSFW"
-          tooltip="Prevent SentenceAudio from playing on NSFW cards. Does not work with AnkiDroid old study screen"
+          label="Отключать звук NSFW"
+          tooltip="Не воспроизводить SentenceAudio на карточках NSFW. Не работает на старом экране обучения AnkiDroid"
         />
         <ToggleSetting
           configKey="swapSentenceAndDefinitionOnMobile"
-          label="Mobile Layout Alt"
-          tooltip="Swap Sentence and Definition position on mobile"
+          label="Альтернативная мобильная раскладка"
+          tooltip="Поменять местами предложение и определение на мобильных устройствах"
         />
         <ToggleSetting
           configKey="preferAnkiConnect"
-          label="Prefer AnkiConnect"
-          tooltip="Query notes via AnkiConnect instead of the notes cache (Desktop only). May be slower and cause Anki to lag under heavy queries"
+          label="Предпочитать AnkiConnect"
+          tooltip="Искать заметки через AnkiConnect вместо кэша (только на компьютере). При больших запросах может работать медленнее и тормозить Anki"
         />
         <RangeSetting
           configKey="layoutMaxWidth"
-          label="Layout Max Width"
+          label="Максимальная ширина макета"
           values={tailwindContainerSize}
         />
       </div>
@@ -279,34 +282,35 @@ function GeneralSettings() {
 function DefinitionSettings() {
   return (
     <Section>
-      <SectionTitle>Definition</SectionTitle>
+      <SectionTitle>Определение</SectionTitle>
       <div class="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] rounded-box gap-2 sm:gap-4">
         <SelectSetting
           configKey="definitionStyle"
-          label="Style"
+          label="Стиль"
           options={[
             {
               value: "normal",
-              label: "Normal (3 Pages)",
-              description: "Shows Selection, Main Definition, and Glossary as separate pages.",
+              label: "Обычный (3 страницы)",
+              description:
+                "Показывает выбранный текст, основное определение и словарную статью на отдельных страницах.",
             },
             {
               value: "single-page",
-              label: "Single Page (Appended)",
-              description: "Appends all definitions into a single scrollable page.",
+              label: "Одна страница",
+              description: "Объединяет все определения в одну прокручиваемую страницу.",
             },
             {
               value: "glossary-split",
-              label: "Glossary Split (Per Dictionary)",
+              label: "По словарям",
               description:
-                "Splits the glossary into individual pages for each dictionary. Only works with Yomitan format",
+                "Разделяет словарную статью на отдельные страницы для каждого словаря. Работает только с форматом Yomitan.",
             },
           ]}
         />
         <ToggleSetting
           configKey="definitionPictureFromGlossary"
-          label="Collect Glossary Images"
-          tooltip="Show images extracted from the glossary in the definition picture section."
+          label="Собирать изображения из словаря"
+          tooltip="Показывать изображения из словарной статьи в разделе иллюстраций определения."
         />
       </div>
     </Section>
@@ -316,33 +320,33 @@ function DefinitionSettings() {
 function ModSettings() {
   return (
     <Section>
-      <SectionTitle>Mod</SectionTitle>
+      <SectionTitle>Модификации</SectionTitle>
       <div>
         <div class="text-lg font-bold flex gap-2 items-center">
-          Hidden
-          <div class="tooltip" data-tip="Expression fade out after timeout">
+          Скрытие
+          <div class="tooltip" data-tip="Выражение исчезает после заданной задержки">
             <InfoIcon class="size-4 text-base-content-calm" />
           </div>
         </div>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] rounded-box gap-2 sm:gap-4">
-          <ToggleSetting configKey="modHidden" label="Enable" />
+          <ToggleSetting configKey="modHidden" label="Включить" />
           <RangeSetting
             configKey="modHiddenDuration"
-            label="Timeout"
+            label="Задержка"
             values={[1000, 2000, 3000, 4000, 5000]}
-            labels={["1s", "2s", "3s", "4s", "5s"]}
+            labels={["1 с", "2 с", "3 с", "4 с", "5 с"]}
           />
         </div>
       </div>
       <div>
         <div class="text-lg font-bold flex gap-2 items-center">
-          Vertical
-          <div class="tooltip" data-tip="Expression appears in the vertical direction">
+          Вертикальное письмо
+          <div class="tooltip" data-tip="Выражение отображается вертикально">
             <InfoIcon class="size-4 text-base-content-calm" />
           </div>
         </div>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] rounded-box gap-2 sm:gap-4">
-          <ToggleSetting configKey="modVertical" label="Enable" />
+          <ToggleSetting configKey="modVertical" label="Включить" />
         </div>
       </div>
     </Section>
@@ -380,7 +384,7 @@ function ThemeSettings() {
   return (
     <Section>
       <div class="flex gap-x-4 sm:gap-x-2 gap-y-1 items-center flex-wrap">
-        <SectionTitle>Theme</SectionTitle>
+        <SectionTitle>Тема</SectionTitle>
         <div role="tablist" class="tabs tabs-sm sm:tabs-md tabs-box self-start flex-nowrap">
           <button
             role="tab"
@@ -389,7 +393,7 @@ function ThemeSettings() {
             on:click={() => $setDarkMode(false)}
             on:touchend={(e) => e.stopPropagation()}
           >
-            Light
+            Светлая
           </button>
           <button
             role="tab"
@@ -398,12 +402,12 @@ function ThemeSettings() {
             on:click={() => $setDarkMode(true)}
             on:touchend={(e) => e.stopPropagation()}
           >
-            Dark
+            Тёмная
           </button>
         </div>
         <Show when={$hasModified() && $darkMode() !== initialDarkMode}>
           <div class="text-xs text-base-content-faint flex items-center gap-2">
-            <span>{$darkMode() ? "Dark" : "Light"} theme has been emulated</span>
+            <span>Включён предпросмотр {$darkMode() ? "тёмной" : "светлой"} темы</span>
             <button
               class="text-base-content-soft"
               on:click={() => $setDarkMode(initialDarkMode)}
@@ -416,7 +420,7 @@ function ThemeSettings() {
       </div>
 
       <div class="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] rounded-box gap-2 sm:gap-4 pb-2 sm:pb-0">
-        <ToggleSetting configKey="showTheme" label="Show Theme" />
+        <ToggleSetting configKey="showTheme" label="Показывать тему" />
       </div>
 
       <ThemeGrid
@@ -451,7 +455,7 @@ function ThemeGrid(props: { selected: DaisyUITheme; onSelect: (theme: DaisyUIThe
                 <div class="bg-base-200 col-start-1 row-span-2 row-start-1"></div>
                 <div class="bg-base-300 col-start-1 row-start-3"></div>
                 <div class="bg-base-100 col-span-4 col-start-2 row-span-3 row-start-1 flex flex-col gap-1 p-2">
-                  <div class="font-bold">{capitalize(theme)}</div>
+                  <div class="font-bold">{getRussianThemeName(theme)}</div>
                   <div class="flex flex-wrap gap-1">
                     <div class="bg-primary flex aspect-square w-5 items-center justify-center rounded">
                       <div class="text-primary-content text-sm font-bold">{even ? "J" : "R"}</div>
@@ -479,13 +483,13 @@ function ThemeGrid(props: { selected: DaisyUITheme; onSelect: (theme: DaisyUIThe
 function FontSettings() {
   return (
     <Section>
-      <SectionTitle>Font</SectionTitle>
+      <SectionTitle>Шрифт</SectionTitle>
       <div class="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] rounded-box gap-4">
-        <TextSetting configKey="systemFontPrimary" label="Primary" />
+        <TextSetting configKey="systemFontPrimary" label="Основной" />
       </div>
 
       <div class="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] rounded-box gap-4">
-        <TextSetting configKey="systemFontSecondary" label="Secondary" />
+        <TextSetting configKey="systemFontSecondary" label="Дополнительный" />
       </div>
     </Section>
   );
@@ -497,27 +501,27 @@ function FontSizeSettings() {
       <div class="collapse rounded-none gap-4 collapse-arrow">
         <input type="checkbox" />
         <div class="collapse-title p-0">
-          <SectionTitle>Font Size</SectionTitle>
+          <SectionTitle>Размер шрифта</SectionTitle>
         </div>
         <div class="collapse-content p-0 flex flex-col gap-4">
           <div>
-            <div class="text-lg font-bold">Mobile</div>
+            <div class="text-lg font-bold">Мобильные устройства</div>
             <div class="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] rounded-box gap-x-4 gap-y-4 sm:gap-y-2">
-              <FontSizeRangeSetting configKey="fontSizeBaseExpression" label="Expression" />
-              <FontSizeRangeSetting configKey="fontSizeBasePitch" label="Pitch" />
-              <FontSizeRangeSetting configKey="fontSizeBaseSentence" label="Sentence" />
-              <FontSizeRangeSetting configKey="fontSizeBaseMiscInfo" label="Misc Info" />
-              <FontSizeRangeSetting configKey="fontSizeBaseHint" label="Hint" />
+              <FontSizeRangeSetting configKey="fontSizeBaseExpression" label="Выражение" />
+              <FontSizeRangeSetting configKey="fontSizeBasePitch" label="Тон" />
+              <FontSizeRangeSetting configKey="fontSizeBaseSentence" label="Предложение" />
+              <FontSizeRangeSetting configKey="fontSizeBaseMiscInfo" label="Доп. информация" />
+              <FontSizeRangeSetting configKey="fontSizeBaseHint" label="Подсказка" />
             </div>
           </div>
           <div>
-            <div class="text-lg font-bold">Desktop</div>
+            <div class="text-lg font-bold">Компьютер</div>
             <div class="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] rounded-box gap-x-4 gap-y-4 sm:gap-y-2">
-              <FontSizeRangeSetting configKey="fontSizeSmExpression" label="Expression" />
-              <FontSizeRangeSetting configKey="fontSizeSmPitch" label="Pitch" />
-              <FontSizeRangeSetting configKey="fontSizeSmSentence" label="Sentence" />
-              <FontSizeRangeSetting configKey="fontSizeSmMiscInfo" label="Misc Info" />
-              <FontSizeRangeSetting configKey="fontSizeSmHint" label="Hint" />
+              <FontSizeRangeSetting configKey="fontSizeSmExpression" label="Выражение" />
+              <FontSizeRangeSetting configKey="fontSizeSmPitch" label="Тон" />
+              <FontSizeRangeSetting configKey="fontSizeSmSentence" label="Предложение" />
+              <FontSizeRangeSetting configKey="fontSizeSmMiscInfo" label="Доп. информация" />
+              <FontSizeRangeSetting configKey="fontSizeSmHint" label="Подсказка" />
             </div>
           </div>
         </div>
@@ -560,11 +564,11 @@ function ClipboardCopyButton(props: { text: string | (() => string) }) {
     navigator.clipboard
       .writeText(text)
       .then(() => {
-        $general.toast.success("Copied to clipboard!");
+        $general.toast.success("Скопировано в буфер обмена!");
       })
       .catch(() => {
         $general.toast.error(
-          "Copy to clipboard is not supported, you can select and CTRL+C manually.",
+          "Копирование в буфер обмена не поддерживается. Выделите текст и нажмите Ctrl+C.",
         );
       });
   }
@@ -590,15 +594,15 @@ function AnkiDroidSettings() {
       <SectionTitle>AnkiDroid</SectionTitle>
       <Show when={isAnkiDroidNewStudyScreen}>
         <div role="alert" class="alert alert-warning">
-          AnkiDroid integration is not available on AnkiDroid new study screen yet.
+          Интеграция с AnkiDroid пока недоступна на новом экране обучения.
         </div>
       </Show>
       <div>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] rounded-box gap-x-4 gap-y-2">
-          <ToggleSetting configKey="ankiDroidEnableIntegration" label="Enable Integration" />
+          <ToggleSetting configKey="ankiDroidEnableIntegration" label="Включить интеграцию" />
           <ToggleSetting
             configKey="ankiDroidReverseSwipeDirection"
-            label="Reverse Swipe Direction"
+            label="Обратное направление свайпа"
           />
         </div>
       </div>
@@ -609,20 +613,20 @@ function AnkiDroidSettings() {
 function KeybindSettings() {
   return (
     <Section>
-      <SectionTitle>Keybind</SectionTitle>
+      <SectionTitle>Горячие клавиши</SectionTitle>
       <div class="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] rounded-box gap-2 sm:gap-4">
         <div>
-          <div class="text-lg font-bold">Definition Page</div>
+          <div class="text-lg font-bold">Страница определения</div>
           <div class="grid grid-cols-2 gap-2 sm:gap-4">
-            <KeybindInput label="Previous" configKey="keybindDefinitionPrev" />
-            <KeybindInput label="Next" configKey="keybindDefinitionNext" />
+            <KeybindInput label="Предыдущая" configKey="keybindDefinitionPrev" />
+            <KeybindInput label="Следующая" configKey="keybindDefinitionNext" />
           </div>
         </div>
         <div>
-          <div class="text-lg font-bold">Field Group</div>
+          <div class="text-lg font-bold">Группа полей</div>
           <div class="grid grid-cols-2 gap-2 sm:gap-4">
-            <KeybindInput label="Previous" configKey="keybindFieldGroupPrev" />
-            <KeybindInput label="Next" configKey="keybindFieldGroupNext" />
+            <KeybindInput label="Предыдущая" configKey="keybindFieldGroupPrev" />
+            <KeybindInput label="Следующая" configKey="keybindFieldGroupNext" />
           </div>
         </div>
       </div>
@@ -679,17 +683,17 @@ function DebugSettings() {
     <div class="collapse rounded-none collapse-arrow">
       <input type="checkbox" />
       <div class="collapse-title p-0">
-        <SectionTitle>Debug</SectionTitle>
+        <SectionTitle>Диагностика</SectionTitle>
       </div>
       <div class="collapse-content p-0">
         <div class="flex flex-col gap-4 animate-fade-in ">
           <div class="grid grid-cols-[repeat(auto-fit,minmax(10rem,1fr))] rounded-box gap-x-4 gap-y-2">
-            <TextSetting configKey="ankiConnectAddress" label="AnkiConnect Address" />
-            <ToggleSetting configKey="showStartupTime" label="Show Startup Time" />
+            <TextSetting configKey="ankiConnectAddress" label="Адрес AnkiConnect" />
+            <ToggleSetting configKey="showStartupTime" label="Показывать время запуска" />
           </div>
           <div class="flex flex-col gap-2">
             <div class="flex gap-2 items-center">
-              <div class="text-lg">Expected Template</div>
+              <div class="text-lg">Ожидаемый шаблон</div>
               <ClipboardCopyButton text={() => $expectedTemplate()} />
             </div>
             <pre class="text-xs bg-base-200 p-4 rounded-lg overflow-auto">
@@ -699,7 +703,7 @@ function DebugSettings() {
 
           <div class="flex flex-col gap-2">
             <div class="flex gap-2 items-center">
-              <div class="text-lg">Expected CSS Variables</div>
+              <div class="text-lg">Ожидаемые переменные CSS</div>
               <ClipboardCopyButton text={() => $expectedCssVar()} />
             </div>
             <pre class="text-xs bg-base-200 p-4 rounded-lg overflow-auto">{$expectedCssVar()}</pre>
@@ -707,7 +711,7 @@ function DebugSettings() {
 
           <div class="flex flex-col gap-2">
             <div class="flex gap-2 items-center">
-              <div class="text-lg">Config</div>
+              <div class="text-lg">Настройки</div>
               <ClipboardCopyButton text={() => JSON.stringify({ ...$config }, null, 2)} />
             </div>
             <pre class="text-xs bg-base-200 p-4 rounded-lg overflow-auto">
@@ -717,13 +721,13 @@ function DebugSettings() {
 
           <div class="flex flex-col gap-2">
             <div class="flex gap-2 items-center">
-              <div class="text-lg">Anki Fields</div>
+              <div class="text-lg">Поля Anki</div>
               <ClipboardCopyButton text={() => JSON.stringify(initialAnkiFields, null, 2)} />
             </div>
 
             <Show when={$initialSide() === "front"}>
               <div role="alert" class="alert alert-warning">
-                Switch to back side for full Anki Fields
+                Перейдите на оборотную сторону, чтобы увидеть все поля Anki
               </div>
             </Show>
             <pre class="text-xs bg-base-200 p-4 rounded-lg overflow-auto">
@@ -733,7 +737,7 @@ function DebugSettings() {
           <KikuFiles />
           <div class="flex flex-col gap-2">
             <div class="flex gap-2 items-center">
-              <div class="text-lg">Logs</div>
+              <div class="text-lg">Журнал</div>
               <ClipboardCopyButton text={() => $logs() ?? ""} />
 
               <button
@@ -789,14 +793,14 @@ function $KikuFiles() {
         return (
           <div class="flex flex-col gap-2">
             <div class="flex gap-2 items-center">
-              <div class="text-lg">Kiku Files</div>
+              <div class="text-lg">Файлы Kiku</div>
               <ClipboardCopyButton text={() => files ?? ""} />
             </div>
 
             <Show when={missing}>
               <div role="alert" class="alert alert-warning">
                 <span>
-                  Some files are missing, things may not work as expected.
+                  Некоторые файлы отсутствуют; часть функций может работать неправильно.
                   <br />
                   <span class="text-xs ">{missing}</span>
                 </span>

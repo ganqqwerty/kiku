@@ -129,7 +129,7 @@ export function KanjiContextProvider(props: { kanji: string; children: JSX.Eleme
 
 export function useKanjiContext() {
   const kanjiStore = useContext(KanjiContext);
-  if (!kanjiStore) throw new Error("Missing KanjiContext");
+  if (!kanjiStore) throw new Error("Отсутствует контекст кандзи");
   return Object.assign(
     createCompatPair(
       "$kanjiState",

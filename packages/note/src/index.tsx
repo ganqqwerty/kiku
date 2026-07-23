@@ -199,7 +199,7 @@ export class KikuHostAnki extends KikuHost {
 
     const qa = document.querySelector("#qa") as HTMLElement;
     const root = document.querySelector("#kiku-root") as HTMLElement;
-    if (!qa || !root) throw new Error("#qa or #kiku-root not found");
+    if (!qa || !root) throw new Error("Не найдены элементы #qa или #kiku-root");
     this.qa = qa;
     this.root = root;
   }
@@ -249,7 +249,7 @@ export class KikuHostAnki extends KikuHost {
       this.getKikuCSSStyleSheet()
         .then((css) => {
           if (aborter.signal.aborted) return;
-          if (!css) throw new Error("kikuCSSStyleSheet not found");
+          if (!css) throw new Error("Не найдена таблица стилей Kiku");
           if (!env.isAnkiWeb) this.setupKikuCSSStyleSheetObserver(qa, css);
           shadow.adoptedStyleSheets = [...shadow.adoptedStyleSheets, css];
           this.#kikuCSSReady = true;
@@ -483,7 +483,7 @@ export class KikuHostAnki extends KikuHost {
   setupDevCss(styleTags: HTMLStyleElement[], config: KikuConfig | undefined) {
     const { shadow } = this;
     const mainCss = document.querySelector('style[type="text/css"][data-vite-dev-id$="main.css"]');
-    if (!mainCss) throw new Error("main.css not found");
+    if (!mainCss) throw new Error("Не найден файл main.css");
     shadow.appendChild(mainCss.cloneNode(true));
     const ankiCss = document.querySelector('link[href="/anki.css"]');
     if (ankiCss) shadow.appendChild(ankiCss.cloneNode(true));

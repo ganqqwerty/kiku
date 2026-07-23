@@ -1,10 +1,10 @@
 <template id="kiku-error">
-  <span>Failed to render card.</span>
-  <span> <b>Error Name:</b> <span data-kiku-error-name></span> </span>
-  <span> <b>Error Message:</b> <span data-kiku-error-message></span> </span>
-  <span> <b>Error Cause:</b> <span data-kiku-error-cause></span> </span>
+  <span>Не удалось отобразить карточку.</span>
+  <span> <b>Тип ошибки:</b> <span data-kiku-error-name></span> </span>
+  <span> <b>Сообщение:</b> <span data-kiku-error-message></span> </span>
+  <span> <b>Причина:</b> <span data-kiku-error-cause></span> </span>
   <span>
-    <b>Error Stack:</b><br />
+    <b>Стек ошибки:</b><br />
     <pre
       data-kiku-error-stack
       style="
@@ -17,7 +17,7 @@
   </span>
   <br />
   <span>
-    Make sure you have Anki updated to at least
+    Убедитесь, что Anki обновлён как минимум до версии
     <a
       href="https://apps.ankiweb.net/"
       target="_blank"
@@ -26,7 +26,7 @@
       25.09
     </a>
   </span>
-  <span>If you feel you messed up something, try to reinstall Kiku.</span>
+  <span>Если вы случайно повредили файлы, попробуйте переустановить Kiku RU.</span>
 </template>
 
 <script>
@@ -59,7 +59,7 @@
 
         setText("[data-kiku-error-name]", error.name);
         setText("[data-kiku-error-message]", error.message);
-        setText("[data-kiku-error-cause]", String(error.cause ?? "N/A"));
+        setText("[data-kiku-error-cause]", String(error.cause ?? "Нет данных"));
         setText("[data-kiku-error-stack]", error.stack ?? "");
       }
 
@@ -72,7 +72,9 @@
         if (!(event.target instanceof HTMLScriptElement)) return;
         if (event.target.id !== "kiku-script") return;
         window.renderErrorFallback?.(
-          new Error("Failed to load _kiku.js. Did you delete Kiku files without reinstalling?"),
+          new Error(
+            "Не удалось загрузить _kiku.js. Возможно, файлы Kiku были удалены без переустановки?",
+          ),
         );
       },
       true,

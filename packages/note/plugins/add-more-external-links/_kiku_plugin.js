@@ -25,7 +25,7 @@ export const plugin = {
           `("note:Kiku" OR "note:Lapis") AND "Expression:*${props.ctx.$ankiFields.Expression}*"`,
         );
       };
-      return html`<button class="text-xs btn btn-xs" on:click=${onclick}>Browse</button>`;
+      return html`<button class="text-xs btn btn-xs" on:click=${onclick}>Открыть в Anki</button>`;
     }
 
     return [

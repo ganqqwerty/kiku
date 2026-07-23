@@ -1,56 +1,73 @@
-# Kiku
+# Kiku RU
 
-![Downloads](https://img.shields.io/github/downloads/youyoumu/kiku/total.svg?label=Downloads)
-![Release](https://img.shields.io/github/v/release/youyoumu/kiku?label=Latest%20Version)
-![Addon](https://img.shields.io/badge/Addon-v1.1.1-blue?logo=anki&link=https%3A%2F%2Fankiweb.net%2Fshared%2Finfo%2F408592650%3Fcb%3D1763445474367)
-![Anki](https://img.shields.io/badge/Anki-_25.09.2-blue?logo=anki)
-![Platform](https://img.shields.io/badge/Platform-Desktop%20%2B%20Mobile-green)
-![License](https://img.shields.io/github/license/youyoumu/kiku?label=License)
-![GitHub top language](https://img.shields.io/github/languages/top/youyoumu/kiku)
+Русская версия типа заметки [Kiku](https://github.com/youyoumu/kiku) для изучения японского
+языка в Anki. Функциональность и интерактивный интерфейс соответствуют Kiku 2.0.0, а видимые
+элементы интерфейса, настройки, сообщения об ошибках, категории кандзи и демонстрационные
+карточки переведены на русский.
 
-<br/>
-<div align="center">
-  <div>
-    <a href="https://kiku.youyoumu.my.id/">Documentation</a> |
-    <a href="https://kiku.youyoumu.my.id/features.html">Features</a> |
-    <a href="https://kiku.youyoumu.my.id/installation.html">Installation</a> |
-    <a href="https://ankiweb.net/shared/info/408592650?cb=1763445474367">Addon</a>
-  </div>
-  <br/>
+## Русские данные кандзи
 
-<img height="256" alt="logo" src="https://github.com/user-attachments/assets/344130d4-76be-473b-bde1-17fa687cf574" />
+Значения кандзи взяты из поля `Keyword_YARXI` типа заметки `Japanese Kanji AnkiWeb` в колоде
+`Retired decks::000ClassicRTK`:
 
-<br/>
-<br/>
-<p>A feature-rich, fully interactive Anki note type designed for Japanese learners.</p>
-</div>
+- 2331 заметка найдена через локальный Anki MCP;
+- 2316 заметок содержат однозначную непустую пару «кандзи → значение YARXI»;
+- все 2316 значений присутствуют в базе Kiku;
+- для кандзи без значения YARXI английские значения скрыты, поэтому языки не смешиваются;
+- частотные диапазоны и классы кандзи также переведены на русский.
 
-<hr/>
+Зафиксированная выгрузка находится в
+`packages/note/preprocess/data/kanji-keyword-yarxi.json`. Скрипт импорта не изменяет коллекцию
+Anki — он только читает две указанные колонки.
 
-## Get Started
+## Установка
 
-To get started, visit the documentation [here](https://kiku.youyoumu.my.id/installation.html).
+Импортируйте `packages/note/.release/Kiku_RU_v2.0.0.apkg` через меню Anki
+**Файл → Импортировать**.
 
-## Demo
-[kanji-web.webm](https://github.com/user-attachments/assets/6d6027bf-0e68-4dc8-8f55-53eb04002fcf)
+Пакет использует тот же внутренний ID типа заметки и те же имена медиафайлов, что и оригинальный
+Kiku. Поэтому он предназначен для замены или обновления Kiku русской версией, а не для
+одновременного использования английской и русской версий. Перед импортом рекомендуется создать
+резервную копию коллекции и выполнить синхронизацию.
 
-[See more features](https://kiku.youyoumu.my.id/features.html)
+После импорта появятся:
 
-## Support
+- тип заметки `Kiku RU`;
+- шаблон карточки `Майнинг`;
+- колода `Kiku RU` с двумя русифицированными демонстрационными заметками.
 
-Found a bug or have a feature request?  
-Please [open an issue here](https://github.com/youyoumu/kiku/issues).
+## Воспроизводимая сборка
 
-## Credit
+Требуются Node.js 24+, pnpm 11 и запущенный Anki MCP на `http://127.0.0.1:3141/`.
 
-- [Lapis](https://github.com/donkuri/lapis), [JPMN](https://github.com/Aquafina-water-bottle/jp-mining-note), and [Senren](https://github.com/BrenoAqua/Senren) for inspiration.
-- Dictionary data based on [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html).
-- Kanji decomposition data derived from [KanjiVG](https://kanjivg.tagaini.net/).
-- Additional metadata and heuristics were derived from publicly accessible information on WaniKani and JPDB.
-- [WaniKani Userscript](https://github.com/mwil/wanikani-userscripts) for the database used in earlier versions of the project.
+```bash
+pnpm install --frozen-lockfile
+pnpm --filter @repo/note import-yarxi
+pnpm --filter @repo/note localize-db-ru
+pnpm --filter @repo/note package-ru
+```
 
-## Support Me
+Адрес MCP и источник данных можно переопределить переменными:
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U6U81PEJF0)
+```bash
+ANKI_MCP_URL=http://127.0.0.1:3141/ \
+YARXI_DECK_NAME='Retired decks::000ClassicRTK' \
+YARXI_MODEL_NAME='Japanese Kanji AnkiWeb' \
+pnpm --filter @repo/note import-yarxi
+```
 
-You can also support me on [GitHub Sponsors](https://github.com/sponsors/youyoumu) 😄
+Команда `package-ru` загружает официальный пакет Kiku той же версии, заменяет в нём собранные
+русские ресурсы, обновляет тип заметки и переводит демонстрационные карточки. Готовый файл
+создаётся в `packages/note/.release/`.
+
+## Проверка
+
+```bash
+pnpm typecheck
+pnpm test
+pnpm lint
+pnpm format
+```
+
+Проект основан на Kiku и распространяется на условиях лицензии MIT. Источники словарных и
+структурных данных указаны в оригинальном проекте.

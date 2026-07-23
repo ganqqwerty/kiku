@@ -245,6 +245,6 @@ export function FieldGroupContextProvider(props: { children: JSX.Element }) {
 
 export function useFieldGroupContext() {
   const fieldGroup = useContext(FieldGroupContext);
-  if (!fieldGroup) throw new Error("Missing FieldGroupContext");
+  if (!fieldGroup) throw new Error("Отсутствует контекст группы полей");
   return fieldGroup;
 }

@@ -52,16 +52,16 @@ export const plugin = {
           if (isNsfw) {
             await invoke("removeTags", { notes: [noteId], tags: "NSFW" });
             $setCard("isNsfw", false);
-            $general.toast.success("NSFW has been removed!");
+            $general.toast.success("Метка NSFW удалена!");
           } else {
             await invoke("addTags", { notes: [noteId], tags: "NSFW" });
             $setCard("isNsfw", true);
-            $general.toast.success("NSFW has been added!");
+            $general.toast.success("Метка NSFW добавлена!");
           }
           $setPressed(true);
         } catch (e) {
           console.error("Failed to toggle NSFW:", e);
-          $general.toast.error("Failed to toggle NSFW");
+          $general.toast.error("Не удалось изменить метку NSFW");
         }
       };
 

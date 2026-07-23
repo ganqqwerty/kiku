@@ -14,12 +14,12 @@ export function AnkiMobileDebug() {
 
   return (
     <div class="p-4 flex flex-col gap-4 bg-base-200 max-w-full overflow-hidden">
-      <div class="text-lg font-bold">AnkiMobile Event Debug v6</div>
+      <div class="text-lg font-bold">Диагностика событий AnkiMobile v6</div>
 
       <div class="flex gap-2 flex-wrap">
         {/* DIV Test */}
         <div class="flex flex-col items-center gap-1 border p-2 bg-base-300">
-          <div class="text-[10px] font-bold">Div</div>
+          <div class="text-[10px] font-bold">Блок</div>
           <div
             tabindex={0}
             class="size-16 flex items-center justify-center text-[10px] text-center p-1 tappable"
@@ -54,13 +54,13 @@ export function AnkiMobileDebug() {
             }}
             on:click={() => log("Div: on:click")}
           >
-            {$divActive() ? "ACTIVE" : "IDLE"}
+            {$divActive() ? "АКТИВЕН" : "ОЖИДАНИЕ"}
           </div>
         </div>
 
         {/* BUTTON Test */}
         <div class="flex flex-col items-center gap-1 border p-2 bg-base-300">
-          <div class="text-[10px] font-bold">Button</div>
+          <div class="text-[10px] font-bold">Кнопка</div>
           <button
             class="size-16 flex items-center justify-center text-[10px] text-center p-1"
             classList={{
@@ -94,16 +94,16 @@ export function AnkiMobileDebug() {
             }}
             on:click={() => log("Button: on:click")}
           >
-            {$buttonActive() ? "ACTIVE" : "IDLE"}
+            {$buttonActive() ? "АКТИВНА" : "ОЖИДАНИЕ"}
           </button>
         </div>
       </div>
 
       <div class="flex flex-col gap-1">
         <div class="flex justify-between items-center">
-          <div class="text-sm font-bold">Logs (Recent first)</div>
+          <div class="text-sm font-bold">Журнал (сначала новые)</div>
           <button class="btn btn-xs" on:click={() => $setLogs([])}>
-            Clear
+            Очистить
           </button>
         </div>
         <div class="bg-black text-success p-2 h-60 overflow-auto text-[10px] font-mono leading-tight">

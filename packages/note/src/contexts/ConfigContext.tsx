@@ -24,7 +24,7 @@ export function ConfigContextProvider(props: { children: JSX.Element; initialCon
     const config = unwrap({ ...$config });
     const { root, host } = $general;
     logger.debug("Updating config:", config);
-    if (!root || !host) throw new Error("Missing root or host");
+    if (!root || !host) throw new Error("Отсутствует корневой элемент или контейнер");
     updateConfigState({ root, host, config, styleTags });
     AnkiConnect.changeAddress(config.ankiConnectAddress);
     sessionStorage.setItem(constants.key["kiku-config"], JSON.stringify(config));
@@ -68,7 +68,7 @@ export function ConfigContextProvider(props: { children: JSX.Element; initialCon
 
 export function useConfigContext() {
   const config = useContext(ConfigContext);
-  if (!config) throw new Error("Missing ConfigContext");
+  if (!config) throw new Error("Отсутствует контекст настроек");
   return Object.assign(
     createCompatPair("$config", "$setConfig", config.$config, config.$setConfig),
     { ...config },

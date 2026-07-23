@@ -74,7 +74,7 @@ export function BreakpointContextProvider(props: { children: JSX.Element }) {
 
 export function useBreakpointContext() {
   const breakpointSignal = useContext(BreakpointContext);
-  if (!breakpointSignal) throw new Error("Missing BreakpointContext");
+  if (!breakpointSignal) throw new Error("Отсутствует контекст размера экрана");
   return breakpointSignal;
 }
 
