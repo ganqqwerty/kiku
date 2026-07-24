@@ -80,8 +80,9 @@ Storing key settings in the templates avoids this flicker.
 [
   "theme",
   "themeDark",
-  "systemFontPrimary",
-  "systemFontSecondary",
+  "fontFamilyCyrillic",
+  "fontFamilyJapaneseText",
+  "fontFamilyJapaneseDisplay",
   "blurNsfw",
   "pictureOnFront",
   "modVertical",

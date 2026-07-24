@@ -1,7 +1,7 @@
-.font-secondary {
+.font-japanese-display {
   visibility: hidden;
 }
 
-[data-hide-secondary="false"] .font-secondary {
+[data-hide-japanese-display="false"] .font-japanese-display {
   visibility: visible;
 }

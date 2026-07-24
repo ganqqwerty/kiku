@@ -66,7 +66,13 @@ export function DefaultPitch(props: {
   });
 
   return (
-    <div class="tooltip" data-tip={$pitchTypeJA()} ref={props.ref} {...$pitchDataset()}>
+    <div
+      class="tooltip font-japanese-text"
+      lang="ja"
+      data-tip={$pitchTypeJA()}
+      ref={props.ref}
+      {...$pitchDataset()}
+    >
       <div class="flex items-start gap-1 animate-fade-in-sm">
         <div>
           <For each={props.pitchInfo.morae}>

@@ -14,8 +14,17 @@ import { applyDefaultDataAttributes, applyDefaultStyleVariables } from "./model-
 
 const execFileAsync = promisify(execFile);
 const fontsDirectory = join(paths["@/"], ".fonts");
+const defaultUpstreamBaseVersion = "2.0.0";
 
 const downloadableMedia = {
+  "_kiku_inter.ttf": {
+    url: "https://raw.githubusercontent.com/google/fonts/e1d6480102fed30739fead0faee463101f892c8f/ofl/inter/Inter%5Bopsz%2Cwght%5D.ttf",
+    sha256: "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+  },
+  "_kiku_inter_OFL.txt": {
+    url: "https://raw.githubusercontent.com/google/fonts/e1d6480102fed30739fead0faee463101f892c8f/ofl/inter/OFL.txt",
+    sha256: "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+  },
   "_kiku_noto_sans_jp.ttf": {
     url: "https://raw.githubusercontent.com/google/fonts/295d98a7a0c17c68f1341eaeea354e7960ea70d3/ofl/notosansjp/NotoSansJP%5Bwght%5D.ttf",
     sha256: "c2f3b4d463500a2ddcd3849cded1fceeb9fd6d1c32e6cbecd568453ba50fc68f",
@@ -212,14 +221,15 @@ async function replaceMediaFiles(directory: string) {
   await writeFile(join(directory, "media"), JSON.stringify(media));
 }
 
-async function downloadBasePackage(destination: string, version: string) {
+async function downloadBasePackage(destination: string) {
   const localPackage = process.env.KIKU_BASE_APKG;
   if (localPackage) {
     await copyFile(localPackage, destination);
     return;
   }
 
-  const url = `https://github.com/youyoumu/kiku/releases/download/v${version}/Kiku_v${version}.apkg`;
+  const baseVersion = process.env.KIKU_BASE_VERSION ?? defaultUpstreamBaseVersion;
+  const url = `https://github.com/youyoumu/kiku/releases/download/v${baseVersion}/Kiku_v${baseVersion}.apkg`;
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Не удалось загрузить исходный пакет: HTTP ${response.status}`);
   await writeFile(destination, Buffer.from(await response.arrayBuffer()));
@@ -237,7 +247,7 @@ async function run() {
     await mkdir(paths["@/.release/"], { recursive: true });
     await ensureDownloadableMedia();
     await prepareGeneratedMedia();
-    await downloadBasePackage(sourcePackage, version);
+    await downloadBasePackage(sourcePackage);
     await extractZip(sourcePackage, { dir: unpacked });
     await replaceMediaFiles(unpacked);
     await updateCollection(join(unpacked, "collection.anki21"));

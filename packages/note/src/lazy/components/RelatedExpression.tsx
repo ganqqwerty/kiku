@@ -145,11 +145,12 @@ function $RelatedExpression() {
             }}
           ></MoveDown>
           <button
-            class="hover:text-base-content transition-colors cursor-pointer animate-fade-in-sm"
+            class="hover:text-base-content transition-colors cursor-pointer animate-fade-in-sm font-japanese-display"
             classList={{
               "text-base-content-soft": !$isInitialAnkiFields(),
               "text-base-content": $isInitialAnkiFields(),
             }}
+            lang="ja"
             on:click={() => {
               $setCard("fadeInTopSection", false);
               resetAnkiFields();
@@ -176,7 +177,10 @@ function $RelatedExpression() {
                   $ankiFields.CardID === cardId && isExplicitRelatedExpression(note),
                 "text-base-content":
                   $ankiFields.CardID === cardId && !isExplicitRelatedExpression(note),
+                "font-japanese-text": $initialSide() === "front",
+                "font-japanese-display": $initialSide() !== "front",
               }}
+              lang="ja"
               on:click={() => {
                 $setCard("fadeInTopSection", false);
                 $setAnkiFields({

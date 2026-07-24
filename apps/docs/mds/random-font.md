@@ -4,7 +4,7 @@ outline: deep
 
 # Random Font
 
-This will randomize the secondary font (Expression, Sentence, etc.).
+This will randomize the Japanese display font used for kanji and expressions.
 
 ::: code-group
 

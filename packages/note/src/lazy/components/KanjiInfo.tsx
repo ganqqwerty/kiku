@@ -54,7 +54,9 @@ export function $KanjiInfo() {
               return (
                 <Show when={reading.percentage}>
                   <span class="border border-base-300 inline-flex">
-                    <span class="px-0.5">{reading.reading}</span>
+                    <span class="px-0.5 font-japanese-text" lang="ja">
+                      {reading.reading}
+                    </span>
                     <span class="border-s border-base-300 px-0.5 bg-base-300 text-base-content-soft">
                       {reading.percentage}
                     </span>
@@ -404,7 +406,9 @@ function $KanjiKeyword(props: KanjiKeywordProps) {
       on:click={props.onClick}
       on:touchend={(e) => e.stopPropagation()}
     >
-      <span class=" px-1 text-lg sm:text-xl">{$kanjiState.kanji}</span>
+      <span class="px-1 text-lg sm:text-xl font-japanese-display" lang="ja">
+        {$kanjiState.kanji}
+      </span>
       <Show when={$$keyword()}>
         <span class="bg-base-300 border-s border-base-300 px-1 text-base-content-soft flex items-center">
           {capitalizeSentence($$keyword())}

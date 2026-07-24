@@ -152,7 +152,9 @@ function $KanjiPageIndicator() {
           }}
           on:touchend={(e) => e.stopPropagation()}
         >
-          <span>{kanji}</span>
+          <span class="font-japanese-display" lang="ja">
+            {kanji}
+          </span>
           <span
             class="bg-base-content/5 leading-none text-xs sm:text-sm rounded-xs"
             classList={{
@@ -176,7 +178,9 @@ function $KanjiPageIndicator() {
         }}
         on:touchend={(e) => e.stopPropagation()}
       >
-        <span>読</span>
+        <span class="font-japanese-display" lang="ja">
+          読
+        </span>
         <span
           class="bg-base-content/5 leading-none text-xs sm:text-sm rounded-xs"
           classList={{
@@ -199,7 +203,9 @@ function $KanjiPageIndicator() {
         }}
         on:touchend={(e) => e.stopPropagation()}
       >
-        <span>同</span>
+        <span class="font-japanese-display" lang="ja">
+          同
+        </span>
         <span
           class="bg-base-content/5 leading-none text-xs sm:text-sm rounded-xs"
           classList={{
@@ -222,7 +228,9 @@ function $KanjiPageIndicator() {
         }}
         on:touchend={(e) => e.stopPropagation()}
       >
-        <span>関</span>
+        <span class="font-japanese-display" lang="ja">
+          関
+        </span>
         <span
           class="bg-base-content/5 leading-none text-xs sm:text-sm rounded-xs"
           classList={{

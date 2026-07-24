@@ -114,7 +114,7 @@ function Page() {
         <HeaderKanjiPage />
         <div class="flex flex-col gap-2 sm:gap-4">
           <Show when={!contextLabel}>
-            <div role="tablist" class="tabs tabs-box animate-fade-in">
+            <div role="tablist" class="tabs tabs-box animate-fade-in font-japanese-text" lang="ja">
               <TabItem
                 active={$kanjiPage.tab === "kanji"}
                 neverDisabled={true}
@@ -154,7 +154,7 @@ function Page() {
             </div>
           </Show>
           <div class="flex flex-col items-center gap-2 animate-fade-in">
-            <div class="font-secondary text-5xl sm:text-6xl">
+            <div class="font-japanese-display text-5xl sm:text-6xl" lang="ja">
               <Switch>
                 <Match when={contextLabel}>{contextLabel?.text}</Match>
                 <Match when={$isRuby()}>
@@ -487,7 +487,7 @@ function AnkiNoteItem(props: { data: AnkiNote; highlightedKanji?: string; source
       <div class="flex flex-col gap-2 flex-1">
         <div class="tracking-wide flex gap-2 items-start justify-between">
           <div class="flex gap-2 items-end">
-            <div class="font-secondary text-2xl sm:text-4xl">
+            <div class="font-japanese-display text-2xl sm:text-4xl" lang="ja">
               <Switch>
                 <Match when={$isRuby()}>
                   <ExpressionNoFurigana />
@@ -525,7 +525,8 @@ function AnkiNoteItem(props: { data: AnkiNote; highlightedKanji?: string; source
         </div>
 
         <div
-          class="text-base sm:text-xl text-base-content-calm font-secondary"
+          class="text-base sm:text-xl text-base-content-calm font-japanese-text"
+          lang="ja"
           innerHTML={$sentenceInnerHtmlColorized()}
         ></div>
       </div>
@@ -565,7 +566,7 @@ function KanjiText() {
 
   return (
     <div class="flex gap-2 sm:gap-4 me-2 w-full">
-      <div class="font-secondary text-5xl sm:text-6xl mb-1" ref={$setRef}>
+      <div class="font-japanese-display text-5xl sm:text-6xl mb-1" lang="ja" ref={$setRef}>
         {$kanjiState.kanji}
       </div>
 

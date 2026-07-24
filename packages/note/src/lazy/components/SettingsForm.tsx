@@ -100,8 +100,14 @@ export function UndoButton(props: { configKey: keyof KikuConfig }) {
   );
 }
 
-export function TextSetting(props: { configKey: StringConfigKey; label: string }) {
+export function TextSetting(props: {
+  configKey: StringConfigKey;
+  label: string;
+  Preview?: Component<{ value: string }>;
+}) {
   const { $config, $setConfig } = useConfigContext();
+  const $value = createMemo(() => $config[props.configKey] as string);
+
   return (
     <fieldset class="fieldset py-0">
       <legend class="fieldset-legend">
@@ -112,11 +118,17 @@ export function TextSetting(props: { configKey: StringConfigKey; label: string }
         type="text"
         class="input w-full"
         placeholder={defaultConfig[props.configKey] as string}
-        value={$config[props.configKey] as string}
+        value={$value()}
         on:input={(e) => {
           $setConfig(props.configKey, (e.target as HTMLInputElement).value);
         }}
       />
+      <Show when={props.Preview}>
+        {($Preview) => {
+          const Preview = $Preview();
+          return <Preview value={$value()} />;
+        }}
+      </Show>
     </fieldset>
   );
 }

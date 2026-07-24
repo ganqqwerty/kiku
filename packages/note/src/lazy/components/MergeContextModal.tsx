@@ -337,7 +337,7 @@ function $Dialog(props: {
             </Show>
 
             <div class="flex flex-col gap-2">
-              <FieldPreview title="Предложение" content={$$mergedReadable().Sentence} />
+              <FieldPreview title="Предложение" content={$$mergedReadable().Sentence} lang="ja" />
               <FieldPreview
                 title="Перевод предложения"
                 content={$$mergedReadable().SentenceTranslation}
@@ -345,6 +345,7 @@ function $Dialog(props: {
               <FieldPreview
                 title="Фуригана предложения"
                 content={$$mergedReadable().SentenceFurigana}
+                lang="ja"
               />
               <FieldPreview title="Аудио предложения" content={$$mergedReadable().SentenceAudio} />
               <FieldPreview title="Доп. информация" content={$$mergedReadable().MiscInfo} />
@@ -423,11 +424,20 @@ function $Dialog(props: {
   );
 }
 
-function FieldPreview(props: { title: string; content: string }) {
+function FieldPreview(props: { title: string; content: string; lang?: "ja" | "ru" }) {
+  const $lang = createMemo(() => props.lang ?? "ru");
+
   return (
     <div class="flex flex-col gap-0.5">
       <div class="text-sm">{props.title}</div>
-      <pre class="text-xs bg-base-200 p-2 rounded-sm overflow-auto max-h-[90svh]">
+      <pre
+        class="text-xs bg-base-200 p-2 rounded-sm overflow-auto max-h-[90svh]"
+        classList={{
+          "font-cyrillic": $lang() === "ru",
+          "font-japanese-text": $lang() === "ja",
+        }}
+        lang={$lang()}
+      >
         {props.content ? props.content : "\n"}
       </pre>
     </div>

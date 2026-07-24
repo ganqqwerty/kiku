@@ -1,4 +1,4 @@
-import { defaultConfig, legacyDefaultFonts } from "./default-config";
+import { defaultConfig } from "./default-config";
 import { objectToCss } from "./dom";
 import type { Logger } from "./logger";
 import { colorBase100Map, type DaisyUITheme, daisyUIThemes } from "./theme";
@@ -6,8 +6,9 @@ import { colorBase100Map, type DaisyUITheme, daisyUIThemes } from "./theme";
 export type KikuConfig = {
   theme: DaisyUITheme;
   themeDark: DaisyUITheme;
-  systemFontPrimary: string;
-  systemFontSecondary: string;
+  fontFamilyCyrillic: string;
+  fontFamilyJapaneseText: string;
+  fontFamilyJapaneseDisplay: string;
   blurNsfw: boolean;
   muteNsfw: boolean;
   pictureOnFront: boolean;
@@ -82,11 +83,6 @@ export type RootDatasetKey = (typeof rootDatasetArray)[number];
 export type RootDataset = Partial<Record<RootDatasetKey, string>>;
 export const rootDatasetConfigWhitelist = new Set<RootDatasetKey>(rootDatasetArray);
 
-function validateFont(value: unknown, legacyDefault: string, fallback: string) {
-  if (typeof value !== "string" || value === legacyDefault) return fallback;
-  return value;
-}
-
 export function validateConfig(config: KikuConfig, logger?: Logger): KikuConfig {
   try {
     if (typeof config !== "object" || config === null) throw new Error();
@@ -95,8 +91,9 @@ export function validateConfig(config: KikuConfig, logger?: Logger): KikuConfig 
     const valid: KikuConfig = {
       theme: daisyUIThemes.includes(config.theme) ? config.theme : defaultConfig.theme,
       themeDark: daisyUIThemes.includes(config.themeDark) ? config.themeDark : defaultConfig.themeDark,
-      systemFontPrimary: validateFont(config.systemFontPrimary, legacyDefaultFonts.primary, defaultConfig.systemFontPrimary),
-      systemFontSecondary: validateFont(config.systemFontSecondary, legacyDefaultFonts.secondary, defaultConfig.systemFontSecondary),
+      fontFamilyCyrillic: typeof config.fontFamilyCyrillic === "string" ? config.fontFamilyCyrillic : defaultConfig.fontFamilyCyrillic,
+      fontFamilyJapaneseText: typeof config.fontFamilyJapaneseText === "string" ? config.fontFamilyJapaneseText : defaultConfig.fontFamilyJapaneseText,
+      fontFamilyJapaneseDisplay: typeof config.fontFamilyJapaneseDisplay === "string" ? config.fontFamilyJapaneseDisplay : defaultConfig.fontFamilyJapaneseDisplay,
 
       blurNsfw: typeof config.blurNsfw === "boolean" ? config.blurNsfw : defaultConfig.blurNsfw,
       muteNsfw: typeof config.muteNsfw === "boolean" ? config.muteNsfw : defaultConfig.muteNsfw,
@@ -141,8 +138,9 @@ export function validateConfig(config: KikuConfig, logger?: Logger): KikuConfig 
 }
 
 export type CssVar = {
-  "--font-primary": string;
-  "--font-secondary": string;
+  "--font-cyrillic": string;
+  "--font-japanese-text": string;
+  "--font-japanese-display": string;
 
   "--font-size-base-expression": string;
   "--line-height-base-expression": string;
@@ -206,8 +204,9 @@ export function getRootDatasetConfig(config: KikuConfig): RootDataset {
 export function getCssVar(config: KikuConfig) {
   // oxfmt-ignore
   const cssVar: CssVar = {
-    "--font-primary": config.systemFontPrimary,
-    "--font-secondary": config.systemFontSecondary,
+    "--font-cyrillic": config.fontFamilyCyrillic,
+    "--font-japanese-text": config.fontFamilyJapaneseText,
+    "--font-japanese-display": config.fontFamilyJapaneseDisplay,
 
     "--font-size-base-expression": tailwindFontSizeVar[config.fontSizeBaseExpression].fontSize,
     "--line-height-base-expression": tailwindFontSizeVar[config.fontSizeBaseExpression].lineHeight,

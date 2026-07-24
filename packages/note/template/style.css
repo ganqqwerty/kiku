@@ -3,11 +3,35 @@
 */
 
 @font-face {
+  font-family: "Kiku Inter";
+  src: url("_kiku_inter.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range:
+    U+0000-024F, U+0300-052F, U+1E00-1EFF, U+2000-206F, U+20A0-20CF, U+2100-214F, U+2190-22FF;
+}
+
+@font-face {
+  font-family: "Kiku Inter";
+  src: url("_kiku_noto_sans_jp.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range:
+    U+2E80-2FFF, U+3000-30FF, U+31F0-31FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE10-FE1F,
+    U+FE30-FE4F, U+FF00-FFEF, U+1B000-1B2FF, U+20000-3FFFF;
+}
+
+@font-face {
   font-family: "Kiku Noto Sans JP";
   src: url("_kiku_noto_sans_jp.ttf") format("truetype");
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
+  unicode-range:
+    U+2E80-2FFF, U+3000-30FF, U+31F0-31FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE10-FE1F,
+    U+FE30-FE4F, U+FF00-FFEF, U+1B000-1B2FF, U+20000-3FFFF;
 }
 
 @font-face {
@@ -16,6 +40,9 @@
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
+  unicode-range:
+    U+2E80-2FFF, U+3000-30FF, U+31F0-31FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FE10-FE1F,
+    U+FE30-FE4F, U+FF00-FFEF, U+1B000-1B2FF, U+20000-3FFFF;
 }
 
 @layer theme, base, components, utilities.daisyui.component, custom;

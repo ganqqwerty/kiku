@@ -9,7 +9,7 @@ import {
   rootDatasetConfigWhitelist,
   validateConfig,
 } from "./config";
-import { defaultConfig, legacyDefaultFonts } from "./default-config";
+import { defaultConfig } from "./default-config";
 
 describe("rootDatasetConfigWhitelist", () => {
   it("should only contain keys present in defaultConfig", () => {
@@ -21,16 +21,40 @@ describe("rootDatasetConfigWhitelist", () => {
   });
 });
 
-describe("legacy font migration", () => {
-  it("uses bundled fonts for an existing config that still has the upstream defaults", () => {
+describe("font config validation", () => {
+  it("uses defaults when a config lacks semantic font fields", () => {
+    const incompleteConfig = {
+      ...defaultConfig,
+      fontFamilyCyrillic: undefined,
+      fontFamilyJapaneseText: undefined,
+      fontFamilyJapaneseDisplay: undefined,
+    };
+    const config = validateConfig(incompleteConfig as unknown as typeof defaultConfig);
+
+    expect(config.fontFamilyCyrillic).toBe(defaultConfig.fontFamilyCyrillic);
+    expect(config.fontFamilyJapaneseText).toBe(defaultConfig.fontFamilyJapaneseText);
+    expect(config.fontFamilyJapaneseDisplay).toBe(defaultConfig.fontFamilyJapaneseDisplay);
+  });
+
+  it("preserves all three semantic font settings", () => {
     const config = validateConfig({
       ...defaultConfig,
-      systemFontPrimary: legacyDefaultFonts.primary,
-      systemFontSecondary: legacyDefaultFonts.secondary,
+      fontFamilyCyrillic: "'Test Cyrillic'",
+      fontFamilyJapaneseText: "'Test Japanese Text'",
+      fontFamilyJapaneseDisplay: "'Test Japanese Display'",
     });
 
-    expect(config.systemFontPrimary).toBe(defaultConfig.systemFontPrimary);
-    expect(config.systemFontSecondary).toBe(defaultConfig.systemFontSecondary);
+    expect(config.fontFamilyCyrillic).toBe("'Test Cyrillic'");
+    expect(config.fontFamilyJapaneseText).toBe("'Test Japanese Text'");
+    expect(config.fontFamilyJapaneseDisplay).toBe("'Test Japanese Display'");
+  });
+
+  it("generates the three semantic font variables", () => {
+    expect(getCssVar(defaultConfig)).toMatchObject({
+      "--font-cyrillic": defaultConfig.fontFamilyCyrillic,
+      "--font-japanese-text": defaultConfig.fontFamilyJapaneseText,
+      "--font-japanese-display": defaultConfig.fontFamilyJapaneseDisplay,
+    });
   });
 });
 

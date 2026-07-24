@@ -1,8 +1,19 @@
-.font-primary {
-  font-family: var(--font-primary);
+.font-cyrillic {
+  font-family: var(--font-cyrillic);
 }
-.font-secondary {
-  font-family: var(--font-secondary);
+.font-japanese-text {
+  font-family: var(--font-japanese-text);
+}
+.font-japanese-display {
+  font-family: var(--font-japanese-display);
+}
+
+:where([lang="ru"]) {
+  font-family: var(--font-cyrillic);
+}
+
+:where([lang="ja"]) {
+  font-family: var(--font-japanese-text);
 }
 
 .expression {

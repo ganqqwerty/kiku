@@ -28,16 +28,16 @@ export const plugin = {
       sessionStorage.setItem("random-font", font);
     }
 
-    if (layout) layout.style.setProperty("--font-secondary", font);
+    if (layout) layout.style.setProperty("--font-japanese-display", font);
 
     // wait until the font is loaded
     document.fonts.onloadingdone = () => {
-      if (root) root.dataset.hideSecondary = "false";
+      if (root) root.dataset.hideJapaneseDisplay = "false";
     };
     // safe guard when fonts.onloadingdone event fails
     const delay = 100; // ms
     setTimeout(() => {
-      if (root) root.dataset.hideSecondary = "false";
+      if (root) root.dataset.hideJapaneseDisplay = "false";
     }, delay);
   },
 };

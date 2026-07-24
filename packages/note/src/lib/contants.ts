@@ -25,6 +25,7 @@ const assets = {
   "_kiku_worker.js": "_kiku_worker.js",
   "_kiku_plugin.css": "_kiku_plugin.css",
   "_kiku.css": "_kiku.css",
+  "_kiku_inter.ttf": "_kiku_inter.ttf",
   "_kiku_noto_sans_jp.ttf": "_kiku_noto_sans_jp.ttf",
   "_kiku_noto_serif_jp.ttf": "_kiku_noto_serif_jp.ttf",
 };
@@ -58,6 +59,7 @@ export const constants = {
     assets["_kiku_back.html"],
     assets["_kiku_style.css"],
     assets["_kiku.css"],
+    assets["_kiku_inter.ttf"],
     assets["_kiku_noto_sans_jp.ttf"],
     assets["_kiku_noto_serif_jp.ttf"],
 

@@ -175,7 +175,9 @@ function KikuIcon() {
 
   return (
     <div class="flex flex-col items-center text-base-content-faint justify-center">
-      <div class="text-base-content-subtle-200 text-6xl">菊</div>
+      <div class="text-base-content-subtle-200 text-6xl font-japanese-display" lang="ja">
+        菊
+      </div>
       <div class="flex items-center gap-1.5">
         <KikuVersion latestVersion={$$latestVersion.state === "ready" ? $$latestVersion() : null} />
       </div>
@@ -485,11 +487,51 @@ function FontSettings() {
     <Section>
       <SectionTitle>Шрифт</SectionTitle>
       <div class="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] rounded-box gap-4">
-        <TextSetting configKey="systemFontPrimary" label="Основной" />
+        <TextSetting
+          configKey="fontFamilyCyrillic"
+          label="Кириллица и латиница"
+          Preview={(props) => (
+            <div
+              class="font-cyrillic rounded-box bg-base-200 px-3 py-2 text-lg"
+              lang="ru"
+              style={{ "font-family": props.value }}
+            >
+              Съешь же ещё этих мягких французских булок
+            </div>
+          )}
+        />
       </div>
 
       <div class="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] rounded-box gap-4">
-        <TextSetting configKey="systemFontSecondary" label="Дополнительный" />
+        <TextSetting
+          configKey="fontFamilyJapaneseText"
+          label="Японский текст"
+          Preview={(props) => (
+            <div
+              class="font-japanese-text rounded-box bg-base-200 px-3 py-2 text-lg"
+              lang="ja"
+              style={{ "font-family": props.value }}
+            >
+              明日は図書館で日本語を読みます。
+            </div>
+          )}
+        />
+      </div>
+
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(15rem,1fr))] rounded-box gap-4">
+        <TextSetting
+          configKey="fontFamilyJapaneseDisplay"
+          label="Кандзи и выражения"
+          Preview={(props) => (
+            <div
+              class="font-japanese-display rounded-box bg-base-200 px-3 py-2 text-4xl"
+              lang="ja"
+              style={{ "font-family": props.value }}
+            >
+              漢字・表現
+            </div>
+          )}
+        />
       </div>
     </Section>
   );
@@ -531,6 +573,19 @@ function FontSizeSettings() {
 }
 
 function FontSizeRangeSetting(props: { configKey: NumStrConfigKey; label: string }) {
+  const $preview = createMemo(() => {
+    if (props.configKey.includes("Expression")) {
+      return { class: "font-japanese-display", lang: "ja", text: "漢字" };
+    }
+    if (props.configKey.includes("Pitch")) {
+      return { class: "font-japanese-text", lang: "ja", text: "かな" };
+    }
+    if (props.configKey.includes("Sentence")) {
+      return { class: "font-japanese-text", lang: "ja", text: "日本語" };
+    }
+    return { class: "font-cyrillic", lang: "ru", text: "Текст" };
+  });
+
   return (
     <RangeSetting
       configKey={props.configKey}
@@ -542,13 +597,14 @@ function FontSizeRangeSetting(props: { configKey: NumStrConfigKey; label: string
         const $value = createMemo(() => props.value as TailwindSize);
         return (
           <div
-            class="font-secondary"
+            class={$preview().class}
+            lang={$preview().lang}
             style={{
               "font-size": tailwindFontSizeVar[$value()].fontSize,
               "line-height": tailwindFontSizeVar[$value()].lineHeight,
             }}
           >
-            あ
+            {$preview().text}
           </div>
         );
       }}

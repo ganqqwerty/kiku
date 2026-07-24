@@ -91,7 +91,8 @@ function SentenceFieldWithTranslation() {
         <SentenceField />
       </div>
       <div
-        class="collapse-content text-lg text-base-content-calm"
+        class="collapse-content text-lg text-base-content-calm font-cyrillic"
+        lang="ru"
         innerHTML={$group().sentenceTranslationField}
       ></div>
     </div>
@@ -141,7 +142,8 @@ function SentenceField() {
 
   return (
     <div
-      class={`sentence font-secondary sentence-field`}
+      class="sentence font-japanese-text sentence-field"
+      lang="ja"
       classList={{
         "animate-fade-in": $animateFadeIn(),
       }}
