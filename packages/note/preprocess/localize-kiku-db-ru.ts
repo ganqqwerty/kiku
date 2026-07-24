@@ -5,6 +5,7 @@ import { gunzipSync, gzipSync } from "node:zlib";
 import * as tar from "tar";
 import { paths } from "#/tools/paths.ts";
 import keywordByKanji from "./data/kanji-keyword-yarxi.json" with { type: "json" };
+import { normalizeYarxiKeyword } from "./yarxi-keyword.ts";
 
 type KikuKanjiCompact = [
   string[],
@@ -57,7 +58,9 @@ function localizeKanjiDb(db: KikuDbKanjiCompact) {
   let localized = 0;
 
   for (const [kanji, entry] of Object.entries(db)) {
-    const keyword = keywordByKanji[kanji as keyof typeof keywordByKanji]?.trim() ?? "";
+    const keyword = normalizeYarxiKeyword(
+      keywordByKanji[kanji as keyof typeof keywordByKanji] ?? "",
+    );
     entry[2] = keyword;
     entry[3] = keyword ? [keyword] : [];
     entry[4] = keyword;

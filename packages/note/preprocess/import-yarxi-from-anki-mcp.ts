@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { normalizeYarxiKeyword } from "./yarxi-keyword.ts";
 
 const ANKI_MCP_URL = process.env.ANKI_MCP_URL ?? "http://127.0.0.1:3141/";
 const DECK_NAME = process.env.YARXI_DECK_NAME ?? "Retired decks::000ClassicRTK";
@@ -99,7 +100,7 @@ async function readYarxiKeywords(noteIds: number[]) {
 
     for (const note of page.notes) {
       const kanji = note.fields.Kanji?.value.trim() ?? "";
-      const keyword = note.fields.Keyword_YARXI?.value.trim() ?? "";
+      const keyword = normalizeYarxiKeyword(note.fields.Keyword_YARXI?.value ?? "");
       if ([...kanji].length !== 1 || !keyword) {
         skipped.push({ noteId: note.noteId, kanji, keyword });
         continue;
