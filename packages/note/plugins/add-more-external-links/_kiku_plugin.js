@@ -22,7 +22,7 @@ export const plugin = {
     function AnkiDroidBrowseButton() {
       const onclick = () => {
         ankiDroidAPI?.ankiSearchCard(
-          `("note:Kiku" OR "note:Lapis") AND "Expression:*${props.ctx.$ankiFields.Expression}*"`,
+          `("note:Kiku RU" OR "note:Kiku" OR "note:Lapis") AND "Expression:*${props.ctx.$ankiFields.Expression}*"`,
         );
       };
       return html`<button class="text-xs btn btn-xs" on:click=${onclick}>Открыть в Anki</button>`;

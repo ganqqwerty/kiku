@@ -1,4 +1,4 @@
-import { defaultConfig } from "./default-config";
+import { defaultConfig, legacyDefaultFonts } from "./default-config";
 import { objectToCss } from "./dom";
 import type { Logger } from "./logger";
 import { colorBase100Map, type DaisyUITheme, daisyUIThemes } from "./theme";
@@ -82,6 +82,11 @@ export type RootDatasetKey = (typeof rootDatasetArray)[number];
 export type RootDataset = Partial<Record<RootDatasetKey, string>>;
 export const rootDatasetConfigWhitelist = new Set<RootDatasetKey>(rootDatasetArray);
 
+function validateFont(value: unknown, legacyDefault: string, fallback: string) {
+  if (typeof value !== "string" || value === legacyDefault) return fallback;
+  return value;
+}
+
 export function validateConfig(config: KikuConfig, logger?: Logger): KikuConfig {
   try {
     if (typeof config !== "object" || config === null) throw new Error();
@@ -90,8 +95,8 @@ export function validateConfig(config: KikuConfig, logger?: Logger): KikuConfig 
     const valid: KikuConfig = {
       theme: daisyUIThemes.includes(config.theme) ? config.theme : defaultConfig.theme,
       themeDark: daisyUIThemes.includes(config.themeDark) ? config.themeDark : defaultConfig.themeDark,
-      systemFontPrimary: typeof config.systemFontPrimary === "string" ? config.systemFontPrimary : defaultConfig.systemFontPrimary,
-      systemFontSecondary: typeof config.systemFontSecondary === "string" ? config.systemFontSecondary : defaultConfig.systemFontSecondary,
+      systemFontPrimary: validateFont(config.systemFontPrimary, legacyDefaultFonts.primary, defaultConfig.systemFontPrimary),
+      systemFontSecondary: validateFont(config.systemFontSecondary, legacyDefaultFonts.secondary, defaultConfig.systemFontSecondary),
 
       blurNsfw: typeof config.blurNsfw === "boolean" ? config.blurNsfw : defaultConfig.blurNsfw,
       muteNsfw: typeof config.muteNsfw === "boolean" ? config.muteNsfw : defaultConfig.muteNsfw,

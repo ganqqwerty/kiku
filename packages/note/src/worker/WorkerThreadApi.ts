@@ -2,6 +2,7 @@ import "#/src/lib/polyfill";
 import type { KikuConfig } from "#/src/lib/config";
 import type { Constants } from "#/src/lib/contants";
 import { parseRelatedExpression } from "#/src/lib/parse-related-expression";
+import { isSearchableNoteType } from "#/src/lib/note-identity";
 import type {
   AnkiFields,
   AnkiNote,
@@ -84,7 +85,7 @@ export class WorkerThreadApi {
         if (!notes) continue;
 
         for (const note of notes) {
-          if (note.modelName !== "Kiku" && note.modelName !== "Lapis") continue;
+          if (!isSearchableNoteType(note.modelName)) continue;
 
           const expr = note.fields.Expression.value;
           const reading = note.fields.ExpressionReading?.value ?? "";

@@ -1,3 +1,5 @@
+import { noteIdentity } from "./note-identity";
+
 const VERSION: string =
   // @ts-expect-error: injected by vite
   typeof __VERSION__ !== "undefined" ? __VERSION__ : "unknown";
@@ -23,13 +25,15 @@ const assets = {
   "_kiku_worker.js": "_kiku_worker.js",
   "_kiku_plugin.css": "_kiku_plugin.css",
   "_kiku.css": "_kiku.css",
+  "_kiku_noto_sans_jp.ttf": "_kiku_noto_sans_jp.ttf",
+  "_kiku_noto_serif_jp.ttf": "_kiku_noto_serif_jp.ttf",
 };
 
 export const constants = {
   VERSION: VERSION,
   COMMIT_SHA: COMMIT_SHA,
-  NOTE_TYPE: "Kiku",
-  CARD_TYPE: "Mining",
+  NOTE_TYPE: noteIdentity.noteType,
+  CARD_TYPE: noteIdentity.cardType,
   key: {
     "kiku-config": "kiku-config",
     "kiku-latest-version": "kiku-latest-version",
@@ -41,6 +45,7 @@ export const constants = {
     "kiku_db_terms_compact.json.gz": "kiku_db_terms_compact.json.gz",
   },
   IMPORTANT_FILES: [
+    assets["_kiku_config.json"],
     assets["_kiku.js"],
     assets["_kiku_libs.js"],
     assets["_kiku_shared.js"],
@@ -53,6 +58,8 @@ export const constants = {
     assets["_kiku_back.html"],
     assets["_kiku_style.css"],
     assets["_kiku.css"],
+    assets["_kiku_noto_sans_jp.ttf"],
+    assets["_kiku_noto_serif_jp.ttf"],
 
     assets["_kiku_db_main.tar"],
     assets["_kiku_db_main_manifest.json"],

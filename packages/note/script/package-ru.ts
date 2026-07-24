@@ -1,18 +1,38 @@
 import { execFile } from "node:child_process";
+import { createHash } from "node:crypto";
 import { mkdir, mkdtemp, readFile, rm, writeFile, copyFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { basename, join } from "node:path";
 import { promisify } from "node:util";
 import { DatabaseSync } from "node:sqlite";
 import extractZip from "extract-zip";
+import { defaultConfig } from "#/src/lib/default-config";
+import { noteIdentity } from "#/src/lib/note-identity";
 import { paths } from "#/tools/paths.ts";
 import { getVersion } from "#/tools/util.ts";
 import { applyDefaultDataAttributes, applyDefaultStyleVariables } from "./model-template.ts";
 
 const execFileAsync = promisify(execFile);
-const NOTE_TYPE_NAME = "Kiku RU";
-const CARD_TYPE_NAME = "Майнинг";
-const DECK_NAME = "Kiku RU";
+const fontsDirectory = join(paths["@/"], ".fonts");
+
+const downloadableMedia = {
+  "_kiku_noto_sans_jp.ttf": {
+    url: "https://raw.githubusercontent.com/google/fonts/295d98a7a0c17c68f1341eaeea354e7960ea70d3/ofl/notosansjp/NotoSansJP%5Bwght%5D.ttf",
+    sha256: "c2f3b4d463500a2ddcd3849cded1fceeb9fd6d1c32e6cbecd568453ba50fc68f",
+  },
+  "_kiku_noto_serif_jp.ttf": {
+    url: "https://raw.githubusercontent.com/google/fonts/8a7c74854f766ae441c7584925cc0ec626fc5aa6/ofl/notoserifjp/NotoSerifJP%5Bwght%5D.ttf",
+    sha256: "2fd527ba12b6a44ec30d796d633360da0aeba6c5d4af1304ce12bb4dc15a7dfc",
+  },
+  "_kiku_noto_sans_jp_OFL.txt": {
+    url: "https://raw.githubusercontent.com/google/fonts/295d98a7a0c17c68f1341eaeea354e7960ea70d3/ofl/notosansjp/OFL.txt",
+    sha256: "1c05c68c34f9708415aada51f17e1b0092d2cea709bf4a94cd38114f9e73d7d9",
+  },
+  "_kiku_noto_serif_jp_OFL.txt": {
+    url: "https://raw.githubusercontent.com/google/fonts/8a7c74854f766ae441c7584925cc0ec626fc5aa6/ofl/notoserifjp/OFL.txt",
+    sha256: "5e0da210fb04058a8c0087985d2d456b931c2579811a49655721d3cf0c36b6d6",
+  },
+} as const;
 
 type Model = {
   name: string;
@@ -26,6 +46,7 @@ type Deck = {
 };
 
 const mediaSources: Record<string, string> = {
+  "_kiku_config.json": paths["@/.anki-build/_kiku_config.json"],
   "_kiku.js": paths["@/dist/_kiku.js"],
   "_kiku_lazy.js": paths["@/dist/_kiku_lazy.js"],
   "_kiku_libs.js": paths["@/dist/_kiku_libs.js"],
@@ -39,7 +60,42 @@ const mediaSources: Record<string, string> = {
   "_kiku_plugin.css": paths["@/.anki-build/_kiku_plugin.css"],
   "_kiku_db_main.tar": paths["@/.db/_kiku_db_main.tar"],
   "_kiku_db_main_manifest.json": paths["@/.db/_kiku_db_main_manifest.json"],
+  ...Object.fromEntries(
+    Object.keys(downloadableMedia).map((name) => [name, join(fontsDirectory, name)]),
+  ),
 };
+
+function sha256(data: Uint8Array) {
+  return createHash("sha256").update(data).digest("hex");
+}
+
+async function ensureDownloadableMedia() {
+  await mkdir(fontsDirectory, { recursive: true });
+
+  for (const [name, source] of Object.entries(downloadableMedia)) {
+    const destination = join(fontsDirectory, name);
+    const cached = await readFile(destination).catch(() => null);
+    if (cached && sha256(cached) === source.sha256) continue;
+
+    const response = await fetch(source.url);
+    if (!response.ok) {
+      throw new Error(`Не удалось загрузить ${name}: HTTP ${response.status}`);
+    }
+    const data = new Uint8Array(await response.arrayBuffer());
+    const actualHash = sha256(data);
+    if (actualHash !== source.sha256) {
+      throw new Error(`Контрольная сумма ${name} не совпадает: ${actualHash}`);
+    }
+    await writeFile(destination, data);
+  }
+}
+
+async function prepareGeneratedMedia() {
+  await writeFile(
+    paths["@/.anki-build/_kiku_config.json"],
+    `${JSON.stringify(defaultConfig, null, 2)}\n`,
+  );
+}
 
 function setField(values: string[], fieldIndex: Map<string, number>, field: string, value: string) {
   const index = fieldIndex.get(field);
@@ -111,14 +167,14 @@ async function updateCollection(collectionPath: string) {
     if (!modelEntry || !deckEntry) throw new Error("В исходном пакете не найден Kiku");
 
     const [modelId, model] = modelEntry;
-    model.name = NOTE_TYPE_NAME;
+    model.name = noteIdentity.noteType;
     model.css = applyDefaultStyleVariables(style);
     const template = model.tmpls[0];
     if (!template) throw new Error("В исходном типе заметки отсутствует шаблон карточки");
-    template.name = CARD_TYPE_NAME;
+    template.name = noteIdentity.cardType;
     template.qfmt = applyDefaultDataAttributes(front);
     template.afmt = applyDefaultDataAttributes(back);
-    deckEntry[1].name = DECK_NAME;
+    deckEntry[1].name = noteIdentity.deck;
 
     localizeSampleNotes(database, modelId, model);
     database
@@ -141,12 +197,19 @@ async function replaceMediaFiles(directory: string) {
     string
   >;
   const mediaIdByName = new Map(Object.entries(media).map(([id, name]) => [name, id]));
+  let nextMediaId = Math.max(-1, ...Object.keys(media).map(Number)) + 1;
 
   for (const [name, source] of Object.entries(mediaSources)) {
-    const mediaId = mediaIdByName.get(name);
-    if (mediaId === undefined) throw new Error(`В исходном пакете отсутствует медиафайл ${name}`);
+    let mediaId = mediaIdByName.get(name);
+    if (mediaId === undefined) {
+      mediaId = String(nextMediaId++);
+      media[mediaId] = name;
+      mediaIdByName.set(name, mediaId);
+    }
     await copyFile(source, join(directory, mediaId));
   }
+
+  await writeFile(join(directory, "media"), JSON.stringify(media));
 }
 
 async function downloadBasePackage(destination: string, version: string) {
@@ -172,6 +235,8 @@ async function run() {
   try {
     await mkdir(unpacked, { recursive: true });
     await mkdir(paths["@/.release/"], { recursive: true });
+    await ensureDownloadableMedia();
+    await prepareGeneratedMedia();
     await downloadBasePackage(sourcePackage, version);
     await extractZip(sourcePackage, { dir: unpacked });
     await replaceMediaFiles(unpacked);

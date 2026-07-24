@@ -44,6 +44,7 @@ export const paths = {
   "@/.anki-build/_kiku_front.html":            p(".anki-build/_kiku_front.html"),
   "@/.anki-build/_kiku_back.html":             p(".anki-build/_kiku_back.html"),
   "@/.anki-build/_kiku_style.css":             p(".anki-build/_kiku_style.css"),
+  "@/.anki-build/_kiku_config.json":            p(".anki-build/_kiku_config.json"),
   "@/.anki-build/_kiku.css":                   p(".anki-build/_kiku.css"),
   "@/.anki-build/_kiku_plugin.js":             p(".anki-build/_kiku_plugin.js"),
   "@/.anki-build/_kiku_plugin.css":            p(".anki-build/_kiku_plugin.css"),

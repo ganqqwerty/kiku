@@ -2,11 +2,12 @@ import { readFile } from "node:fs/promises";
 import { basename } from "node:path";
 import { paths } from "#/tools/paths.ts";
 import { AnkiConnect, log } from "#/tools/util.js";
+import { noteIdentity } from "#/src/lib/note-identity";
 import { applyDefaultDataAttributes, applyDefaultStyleVariables } from "./model-template.ts";
 
 class Script {
-  NOTE_TYPE = "Kiku";
-  CARD_TYPE = "Mining";
+  NOTE_TYPE = noteIdentity.noteType;
+  CARD_TYPE = noteIdentity.cardType;
   FRONT_PATH = paths["@/.anki-build/_kiku_front.html"];
   BACK_PATH = paths["@/.anki-build/_kiku_back.html"];
   STYLE_PATH = paths["@/.anki-build/_kiku_style.css"];

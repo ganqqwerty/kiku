@@ -2,6 +2,22 @@
 * This file is auto-generated. Any manual changes will be lost on save.
 */
 
+@font-face {
+  font-family: "Kiku Noto Sans JP";
+  src: url("_kiku_noto_sans_jp.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Kiku Noto Serif JP";
+  src: url("_kiku_noto_serif_jp.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 @layer theme, base, components, utilities.daisyui.component, custom;
 
 @layer base {

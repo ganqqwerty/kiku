@@ -1,4 +1,5 @@
 import { parseRelatedExpression } from "#/src/lib/parse-related-expression";
+import { ankiNoteTypeFilter } from "#/src/lib/note-identity";
 import type { AnkiNote } from "#/src/lib/types";
 import type { MainThreadApi } from "./MainThreadApi";
 
@@ -50,7 +51,7 @@ export class AnkiConnect {
     expressionList: string[];
     withNewNotes?: boolean;
   }) {
-    const noteFilter = `("note:Kiku" OR "note:Lapis")`;
+    const noteFilter = ankiNoteTypeFilter;
 
     const kanjiQuery =
       kanjiList.length === 0

@@ -7,8 +7,9 @@ import {
   getCssVarDark,
   LIGHT_VARS_REGEX,
   rootDatasetConfigWhitelist,
+  validateConfig,
 } from "./config";
-import { defaultConfig } from "./default-config";
+import { defaultConfig, legacyDefaultFonts } from "./default-config";
 
 describe("rootDatasetConfigWhitelist", () => {
   it("should only contain keys present in defaultConfig", () => {
@@ -17,6 +18,19 @@ describe("rootDatasetConfigWhitelist", () => {
     for (const key of rootDatasetConfigWhitelist) {
       expect(defaultConfigKeys).toContain(key);
     }
+  });
+});
+
+describe("legacy font migration", () => {
+  it("uses bundled fonts for an existing config that still has the upstream defaults", () => {
+    const config = validateConfig({
+      ...defaultConfig,
+      systemFontPrimary: legacyDefaultFonts.primary,
+      systemFontSecondary: legacyDefaultFonts.secondary,
+    });
+
+    expect(config.systemFontPrimary).toBe(defaultConfig.systemFontPrimary);
+    expect(config.systemFontSecondary).toBe(defaultConfig.systemFontSecondary);
   });
 });
 

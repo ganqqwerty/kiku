@@ -1,11 +1,18 @@
 import type { KikuConfig } from "./config";
 
+export const legacyDefaultFonts = {
+  primary:
+    "'Inter', 'SF Pro Display', 'Liberation Sans', 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Noto Sans CJK JP', 'Noto Sans JP', 'Meiryo', 'HanaMinA', 'HanaMinB', sans-serif",
+  secondary:
+    "'Hiragino Mincho ProN', 'Noto Serif CJK JP', 'Noto Serif JP', 'Yu Mincho', 'HanaMinA', 'HanaMinB', serif",
+} as const;
+
 // oxfmt-ignore
 export const defaultConfig: KikuConfig = {
   theme: "light",
   themeDark: "dark",
-  systemFontPrimary: "'Inter', 'SF Pro Display', 'Liberation Sans', 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Noto Sans CJK JP', 'Noto Sans JP', 'Meiryo', 'HanaMinA', 'HanaMinB', sans-serif",
-  systemFontSecondary: "'Hiragino Mincho ProN', 'Noto Serif CJK JP', 'Noto Serif JP', 'Yu Mincho', 'HanaMinA', 'HanaMinB', serif",
+  systemFontPrimary: "'Kiku Noto Sans JP', 'Inter', 'SF Pro Display', 'Liberation Sans', 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Noto Sans CJK JP', 'Noto Sans JP', 'Meiryo', 'HanaMinA', 'HanaMinB', sans-serif",
+  systemFontSecondary: "'Kiku Noto Serif JP', 'Hiragino Mincho ProN', 'Noto Serif CJK JP', 'Noto Serif JP', 'Yu Mincho', 'HanaMinA', 'HanaMinB', serif",
   blurNsfw: true,
   muteNsfw: false,
   pictureOnFront: false,
