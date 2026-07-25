@@ -24,6 +24,7 @@ export class WorkerThreadApi {
   constants!: Constants;
   config!: KikuConfig;
   preferAnkiConnect!: boolean;
+  allowAnkiConnect!: boolean;
   cache = new Map();
   ankiConnect!: AnkiConnect;
   private readonly log = {
@@ -39,11 +40,13 @@ export class WorkerThreadApi {
     constants: Constants;
     config: KikuConfig;
     preferAnkiConnect: boolean;
+    allowAnkiConnect: boolean;
   }) {
     this.assetsPath = payload.assetsPath;
     this.constants = payload.constants;
     this.config = payload.config;
     this.preferAnkiConnect = payload.preferAnkiConnect;
+    this.allowAnkiConnect = payload.allowAnkiConnect;
     this.ankiConnect = new AnkiConnect(this.main.fetchJson, this.config.ankiConnectAddress);
   }
 
@@ -163,14 +166,25 @@ export class WorkerThreadApi {
         result = await queryWithNotesCache();
         isNotesCache = true;
       } catch {
-        this.log.warn("Failed to query with notes cache, falling back to AnkiConnect");
-        result = await this.ankiConnect.queryFieldContains({
-          kanjiList,
-          readingList,
-          expressionList,
-          withNewNotes,
-        });
-        isNotesCache = false;
+        if (this.allowAnkiConnect) {
+          this.log.warn("Failed to query with notes cache, falling back to AnkiConnect");
+          result = await this.ankiConnect.queryFieldContains({
+            kanjiList,
+            readingList,
+            expressionList,
+            withNewNotes,
+          });
+          isNotesCache = false;
+        } else {
+          this.log.warn("Notes cache unavailable; skipping AnkiConnect on this platform");
+          result = {
+            kanjiListResult: {},
+            readingListResult: {},
+            expressionListResult: {},
+            newNotes: [],
+          };
+          isNotesCache = true;
+        }
       }
     }
 

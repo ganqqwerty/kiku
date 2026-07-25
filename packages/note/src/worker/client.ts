@@ -13,6 +13,7 @@ export async function createWorkerApi(
     assetsPath: string;
     config: KikuConfig;
     preferAnkiConnect: boolean;
+    allowAnkiConnect: boolean;
     workerPath?: string;
   },
   logger: Logger,

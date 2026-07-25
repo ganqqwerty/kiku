@@ -257,7 +257,7 @@ function $QueryInfo() {
       <Show when={!$$card()?.isNotesCache}>
         <div class="text-base-content-faint text-sm">[AnkiConnect]</div>
       </Show>
-      <Show when={$$notesManifest() && $$card()?.isNotesCache}>
+      <Show when={($$notesManifest()?.totalNotes ?? 0) > 0 && $$card()?.isNotesCache}>
         <div class="text-base-content-faint text-sm">
           [Кэш заметок] Обновлён{" "}
           {new Date($$notesManifest()?.generatedAt ?? 0).toLocaleString("ru")}

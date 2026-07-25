@@ -8,6 +8,7 @@ import { DatabaseSync } from "node:sqlite";
 import extractZip from "extract-zip";
 import { defaultConfig } from "#/src/lib/default-config";
 import { noteIdentity } from "#/src/lib/note-identity";
+import { emptyNotesManifest } from "#/src/lib/notes-manifest";
 import { paths } from "#/tools/paths.ts";
 import { getVersion } from "#/tools/util.ts";
 import { applyDefaultDataAttributes, applyDefaultStyleVariables } from "./model-template.ts";
@@ -69,6 +70,7 @@ const mediaSources: Record<string, string> = {
   "_kiku_plugin.css": paths["@/.anki-build/_kiku_plugin.css"],
   "_kiku_db_main.tar": paths["@/.db/_kiku_db_main.tar"],
   "_kiku_db_main_manifest.json": paths["@/.db/_kiku_db_main_manifest.json"],
+  "_kiku_notes_manifest.json": paths["@/.anki-build/_kiku_notes_manifest.json"],
   ...Object.fromEntries(
     Object.keys(downloadableMedia).map((name) => [name, join(fontsDirectory, name)]),
   ),
@@ -100,10 +102,16 @@ async function ensureDownloadableMedia() {
 }
 
 async function prepareGeneratedMedia() {
-  await writeFile(
-    paths["@/.anki-build/_kiku_config.json"],
-    `${JSON.stringify(defaultConfig, null, 2)}\n`,
-  );
+  await Promise.all([
+    writeFile(
+      paths["@/.anki-build/_kiku_config.json"],
+      `${JSON.stringify(defaultConfig, null, 2)}\n`,
+    ),
+    writeFile(
+      paths["@/.anki-build/_kiku_notes_manifest.json"],
+      `${JSON.stringify(emptyNotesManifest, null, 2)}\n`,
+    ),
+  ]);
 }
 
 function setField(values: string[], fieldIndex: Map<string, number>, field: string, value: string) {

@@ -44,6 +44,7 @@ export function ConfigContextProvider(props: { children: JSX.Element; initialCon
             config,
             assetsPath: import.meta.env.DEV ? "" : assetsPath,
             preferAnkiConnect: config.preferAnkiConnect && isAnkiDesktop,
+            allowAnkiConnect: isAnkiDesktop,
           });
         });
       },

@@ -23,6 +23,7 @@ export function useWorker() {
       config: unwrap($config),
       assetsPath: import.meta.env.DEV ? "" : assetsPath,
       preferAnkiConnect: $config.preferAnkiConnect && isAnkiDesktop,
+      allowAnkiConnect: isAnkiDesktop,
       workerPath,
     };
     const workerApi = await createWorkerApi(opts, logger, cacheStore?.workerApi);

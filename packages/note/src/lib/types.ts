@@ -58,6 +58,7 @@ export type KikuNotesChunk = {
 export type KikuNotesManifest = {
   profile: string;
   totalNotes: number;
+  chunkCount: number;
   chunks: KikuNotesChunk[];
   generatedAt: number;
 };
