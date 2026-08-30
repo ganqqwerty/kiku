@@ -92,7 +92,7 @@ export function Settings() {
   });
 
   onMount(() => {
-    if (isAnkiDesktop) $checkAnkiConnect();
+    if (isAnkiDesktop) void $checkAnkiConnect();
   });
 
   return (
@@ -100,6 +100,8 @@ export function Settings() {
       <HeaderSettings />
       <div class="sm:pb-14">
         <GeneralSettings />
+        <div class="divider"></div>
+        <RelatedExpressionSettings />
         <div class="divider"></div>
         <DefinitionSettings />
         <div class="divider"></div>
@@ -275,6 +277,26 @@ function GeneralSettings() {
           configKey="layoutMaxWidth"
           label="Максимальная ширина макета"
           values={tailwindContainerSize}
+        />
+      </div>
+    </Section>
+  );
+}
+
+function RelatedExpressionSettings() {
+  return (
+    <Section>
+      <SectionTitle>Связанные выражения</SectionTitle>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] rounded-box gap-2 sm:gap-4">
+        <ToggleSetting
+          configKey="relatedExpressionExcludeNewCards"
+          label="Исключать новые карточки"
+          tooltip="Не показывать новые, ещё не изученные карточки среди связанных выражений"
+        />
+        <ToggleSetting
+          configKey="relatedExpressionFallback"
+          label="Дополнять результаты"
+          tooltip="Если включено, дополнять явно связанные выражения совпадениями по выражению и чтению, формами, антонимами и ссылками"
         />
       </div>
     </Section>

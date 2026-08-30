@@ -21,6 +21,7 @@ const Lazy = {
   RelatedExpression: lazy(async () => ({ default: (await import("#/src/lazy")).RelatedExpression, })),
   Expression: lazy(async () => ({ default: (await import("#/src/lazy")).Expression })),
   Settings: lazy(async () => ({ default: (await import("#/src/lazy")).Settings })),
+  CardEnd: lazy(async () => ({ default: (await import("#/src/lazy")).CardEnd })),
 };
 
 export function Front() {
@@ -87,7 +88,7 @@ export function Front() {
               </div>
             </div>
             <div
-              class="flex rounded-lg gap-2 sm:gap-4 flex-col sm:flex-row tappable relative z-10"
+              class="expression-picture-box tappable"
               on:click={() => {
                 if (!$isInitialSide()) return;
                 $setClicked((prev) => !prev);
@@ -95,7 +96,7 @@ export function Front() {
               }}
               on:touchend={(e) => e.stopPropagation()}
             >
-              <div class="flex-1 bg-base-200 p-4 rounded-lg flex flex-col items-center justify-center min-h-38 sm:min-h-56">
+              <div class="expression-audio-box">
                 <ExpressionSection hideExpression={$hideExpression()} />
                 <Show when={!$isInitialSide()}>
                   <div class="hidden sm:block sm:h-8 sm:mt-2">
@@ -139,6 +140,7 @@ export function Front() {
               <Lazy.AudioButtons position={2} />
             </Show>
           )}
+          {$card.ready && <Lazy.CardEnd />}
         </Match>
       </Switch>
       {$card.ready && <Lazy.AudioElements />}

@@ -1,6 +1,12 @@
-import { KikuHost } from "@repo/note";
+import {
+  KikuHost,
+  defaultConfig,
+  generateCssVars,
+  generateCssVarsDark,
+  getCssVar,
+  getCssVarDark,
+} from "@repo/note";
 import kikuWorkerUrl from "@repo/note/_kiku_worker.js?url";
-import kikuEmbedCSS from "#/src/styles/kiku-embed.css?raw";
 
 const cardFieldNames = [
   "IsWordAndSentenceCard",
@@ -84,21 +90,23 @@ export class KikuHostDocs extends KikuHost {
     shadow.append(this.#root);
 
     const style = document.createElement("style");
-    style.innerHTML = kikuEmbedCSS;
+    style.innerHTML = `@layer base {\n${generateCssVars(getCssVar(defaultConfig))}\n\n${generateCssVarsDark(getCssVarDark(defaultConfig))}\n}`;
     this.#styleTags = [style];
     shadow.append(style);
 
-    this.#loadStyles().then(() => {
-      this.#stylesLoaded = true;
-      this.requestUpdate();
-    });
+    this.#loadStyles()
+      .then(() => {
+        this.#stylesLoaded = true;
+        this.requestUpdate();
+      })
+      .catch((e) => {
+        console.error("Failed to load styles:", e);
+      });
     this.requestUpdate();
   }
 
   render() {
-    console.log("#render");
     if (!this.#stylesLoaded) return;
-    console.log("#render real");
     this.#dispose?.();
     this.now = performance.now();
     const isDark = document.documentElement.classList.contains("dark");

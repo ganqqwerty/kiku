@@ -72,7 +72,7 @@ describe("bundled font CSS contract", () => {
     expect(layout).toContain('lang="ru"');
     expect(sentence).toContain('class="sentence font-japanese-text sentence-field"');
     expect(sentence).toContain(
-      'class="collapse-content text-lg text-base-content-calm font-cyrillic"',
+      'class="collapse-content text-base sm:text-lg text-base-content-calm p-0 font-cyrillic"',
     );
     expect(expression).toContain("expression font-japanese-display");
     expect(sentence.match(/lang="ja"/g)).toHaveLength(1);

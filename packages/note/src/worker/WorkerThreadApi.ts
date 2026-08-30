@@ -41,7 +41,7 @@ export class WorkerThreadApi {
     config: KikuConfig;
     preferAnkiConnect: boolean;
     allowAnkiConnect: boolean;
-  }) {
+  }): void {
     this.assetsPath = payload.assetsPath;
     this.constants = payload.constants;
     this.config = payload.config;
@@ -66,7 +66,7 @@ export class WorkerThreadApi {
       const kanjiListResult: Record<string, AnkiNote[]> = {};
       const readingListResult: Record<string, AnkiNote[]> = {};
       const expressionListResult: Record<string, AnkiNote[]> = {};
-      const newNotes: number[] = [];
+      const newNotes: AnkiNote[] = [];
 
       const manifest = await this.notesManifest();
 
@@ -141,13 +141,13 @@ export class WorkerThreadApi {
       kanjiListResult: Record<string, AnkiNote[]>;
       readingListResult: Record<string, AnkiNote[]>;
       expressionListResult: Record<string, AnkiNote[]>;
-      newNotes: number[];
+      newNotes: AnkiNote[];
     };
     let isNotesCache: boolean;
 
     if (this.preferAnkiConnect) {
       try {
-        this.log.info("Querying with AnkiConnect");
+        void this.log.info("Querying with AnkiConnect");
         result = await this.ankiConnect.queryFieldContains({
           kanjiList,
           readingList,
@@ -156,18 +156,18 @@ export class WorkerThreadApi {
         });
         isNotesCache = false;
       } catch {
-        this.log.warn("Failed to query with AnkiConnect, falling back to notes cache");
+        void this.log.warn("Failed to query with AnkiConnect, falling back to notes cache");
         result = await queryWithNotesCache();
         isNotesCache = true;
       }
     } else {
       try {
-        this.log.info("Querying with notes cache");
+        void this.log.info("Querying with notes cache");
         result = await queryWithNotesCache();
         isNotesCache = true;
       } catch {
         if (this.allowAnkiConnect) {
-          this.log.warn("Failed to query with notes cache, falling back to AnkiConnect");
+          void this.log.warn("Failed to query with notes cache, falling back to AnkiConnect");
           result = await this.ankiConnect.queryFieldContains({
             kanjiList,
             readingList,
@@ -176,7 +176,7 @@ export class WorkerThreadApi {
           });
           isNotesCache = false;
         } else {
-          this.log.warn("Notes cache unavailable; skipping AnkiConnect on this platform");
+          void this.log.warn("Notes cache unavailable; skipping AnkiConnect on this platform");
           result = {
             kanjiListResult: {},
             readingListResult: {},
@@ -219,7 +219,7 @@ export class WorkerThreadApi {
       kanjiResult: Record<string, AnkiNote[]>;
       readingResult: Record<string, AnkiNote[]>;
       expressionResult: Record<string, AnkiNote[]>;
-      newNotes: number[];
+      newNotes: AnkiNote[];
       isNotesCache: boolean;
     }>((resolve, reject) => {
       this.pendingQueryShared.push({
@@ -250,7 +250,7 @@ export class WorkerThreadApi {
       kanjiResult: Record<string, AnkiNote[]>;
       readingResult: Record<string, AnkiNote[]>;
       expressionResult: Record<string, AnkiNote[]>;
-      newNotes: number[];
+      newNotes: AnkiNote[];
       isNotesCache: boolean;
     }) => void;
   }[] = [];
@@ -390,7 +390,7 @@ export class WorkerThreadApi {
         { cache: "no-store" },
       )) as KikuDbMainManifest;
     } catch {
-      this.log.error("Не удалось загрузить манифест основной базы данных");
+      void this.log.error("Не удалось загрузить манифест основной базы данных");
       throw new Error("Не удалось загрузить манифест основной базы данных");
     }
     this.cache.set(key, manifest);

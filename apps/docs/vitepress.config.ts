@@ -1,3 +1,4 @@
+import vueJsx from "@vitejs/plugin-vue-jsx";
 import { defineConfig, type HeadConfig } from "vitepress";
 import { vitePluginCopyKikuAssets } from "./tools/vite-plugin-copy-kiku-assets";
 import { vitePluginServeKikuAssets } from "./tools/vite-plugin-serve-kiku-assets";
@@ -10,6 +11,8 @@ const umamiScript: HeadConfig = [
     "data-website-id": process.env.VITE_UMAMI_WEBSITE_ID ?? "",
   },
 ];
+
+// TODO: PURE annotation to avoid Rollup warning https://github.com/vueuse/vueuse/pull/5388
 
 export default defineConfig({
   vue: {
@@ -26,8 +29,10 @@ export default defineConfig({
   vite: {
     publicDir: "../public",
     plugins: [
+      //@ts-expect-error rolldown/rollup type mismatch
+      vueJsx(),
       vitePluginCopyKikuAssets(),
-      //@ts-expect-error
+      //@ts-expect-error rolldown/rollup type mismatch
       vitePluginServeKikuAssets(),
     ],
   },

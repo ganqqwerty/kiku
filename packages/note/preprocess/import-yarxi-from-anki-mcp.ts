@@ -101,7 +101,7 @@ async function readYarxiKeywords(noteIds: number[]) {
     for (const note of page.notes) {
       const kanji = note.fields.Kanji?.value.trim() ?? "";
       const keyword = normalizeYarxiKeyword(note.fields.Keyword_YARXI?.value ?? "");
-      if ([...kanji].length !== 1 || !keyword) {
+      if (Array.from(kanji).length !== 1 || !keyword) {
         skipped.push({ noteId: note.noteId, kanji, keyword });
         continue;
       }

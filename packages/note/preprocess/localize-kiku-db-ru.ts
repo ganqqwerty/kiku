@@ -84,7 +84,9 @@ function localizeKanjiDb(db: KikuDbKanjiCompact) {
   ]);
   const english = visibleStrings.filter((value) => /[A-Za-z]{2,}/.test(value));
   if (english.length) {
-    throw new Error(`В русской базе остались английские значения: ${english.slice(0, 10)}`);
+    throw new Error(
+      `В русской базе остались английские значения: ${english.slice(0, 10).join(", ")}`,
+    );
   }
 
   return localized;

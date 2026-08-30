@@ -71,7 +71,7 @@ export function MergeContextModal() {
   );
 
   onMount(() => {
-    if (isAnkiDesktop) $checkAnkiConnect();
+    if (isAnkiDesktop) void $checkAnkiConnect();
   });
 
   return (
@@ -112,7 +112,7 @@ export function MergeContextModal() {
                       $general.toast.error("AnkiConnect недоступен");
                     },
                   });
-                  refetch();
+                  await refetch();
                 }}
                 on:touchend={(e) => e.stopPropagation()}
               >
@@ -247,15 +247,15 @@ function $Dialog(props: {
             AnkiConnect.invoke("deleteNotes", {
               notes: [rootNoteId],
             })
+              .then(() => {
+                $general.toast.success(
+                  `Заметка ${payload?.note.id} обновлена, заметка ${rootNoteId} удалена!`,
+                );
+              })
               .catch((e) => {
                 logger.error("[MergeContext] deleteNotes failed:", e);
                 $general.toast.error(
                   `Не удалось удалить заметку: ${e instanceof Error ? e.message : ""}`,
-                );
-              })
-              .then(() => {
-                $general.toast.success(
-                  `Заметка ${payload?.note.id} обновлена, заметка ${rootNoteId} удалена!`,
                 );
               });
           }, 500);

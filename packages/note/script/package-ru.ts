@@ -15,7 +15,7 @@ import { applyDefaultDataAttributes, applyDefaultStyleVariables } from "./model-
 
 const execFileAsync = promisify(execFile);
 const fontsDirectory = join(paths["@/"], ".fonts");
-const defaultUpstreamBaseVersion = "2.0.0";
+const defaultUpstreamBaseVersion = "2.1.0";
 
 const downloadableMedia = {
   "_kiku_inter.ttf": {

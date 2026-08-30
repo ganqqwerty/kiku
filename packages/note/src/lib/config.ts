@@ -24,6 +24,8 @@ export type KikuConfig = {
   modVertical: boolean;
   definitionStyle: DefinitionStyle;
   definitionPictureFromGlossary: boolean;
+  relatedExpressionExcludeNewCards: boolean;
+  relatedExpressionFallback: boolean;
   fontSizeBaseExpression: TailwindSize;
   fontSizeBasePitch: TailwindSize;
   fontSizeBaseSentence: TailwindSize;
@@ -111,6 +113,8 @@ export function validateConfig(config: KikuConfig, logger?: Logger): KikuConfig 
       modVertical: typeof config.modVertical === "boolean" ? config.modVertical : defaultConfig.modVertical,
       definitionStyle: definitionStyle.includes(config.definitionStyle) ? config.definitionStyle : defaultConfig.definitionStyle,
       definitionPictureFromGlossary: typeof config.definitionPictureFromGlossary === "boolean" ? config.definitionPictureFromGlossary : defaultConfig.definitionPictureFromGlossary,
+      relatedExpressionExcludeNewCards: typeof config.relatedExpressionExcludeNewCards === "boolean" ? config.relatedExpressionExcludeNewCards : defaultConfig.relatedExpressionExcludeNewCards,
+      relatedExpressionFallback: typeof config.relatedExpressionFallback === "boolean" ? config.relatedExpressionFallback : defaultConfig.relatedExpressionFallback,
 
       fontSizeBaseExpression: tailwindSize.includes(config.fontSizeBaseExpression) ? config.fontSizeBaseExpression : defaultConfig.fontSizeBaseExpression,
       fontSizeBasePitch: tailwindSize.includes(config.fontSizeBasePitch) ? config.fontSizeBasePitch : defaultConfig.fontSizeBasePitch,

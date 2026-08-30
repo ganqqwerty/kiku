@@ -3,6 +3,10 @@ import { ankiNoteTypeFilter } from "#/src/lib/note-identity";
 import type { AnkiNote } from "#/src/lib/types";
 import type { MainThreadApi } from "./MainThreadApi";
 
+export function escapeRegex(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 export class AnkiConnect {
   private fetchJson: MainThreadApi["fetchJson"];
   public ankiConnectAddress: string;
@@ -53,22 +57,21 @@ export class AnkiConnect {
   }) {
     const noteFilter = ankiNoteTypeFilter;
 
+    const kanjiPattern = kanjiList.map(escapeRegex).join("|");
     const kanjiQuery =
-      kanjiList.length === 0
-        ? null
-        : `${noteFilter} AND (${kanjiList.map((k) => `"Expression:*${k}*"`).join(" OR ")})`;
+      kanjiList.length === 0 ? null : `${noteFilter} AND Expression:re:${kanjiPattern}`;
 
+    const readingPattern = readingList.map(escapeRegex).join("|");
     const readingQuery =
       readingList.length === 0
         ? null
-        : `${noteFilter} AND (${readingList.map((r) => `"ExpressionReading:${r}"`).join(" OR ")})`;
+        : `${noteFilter} AND ExpressionReading:re:^${readingPattern}$`;
 
+    const expressionPattern = expressionList.map(escapeRegex).join("|");
     const expressionQuery =
       expressionList.length === 0
         ? null
-        : `${noteFilter} AND (${expressionList
-            .flatMap((e) => [`"Expression:${e}"`, `"RelatedExpression:*${e}*"`])
-            .join(" OR ")})`;
+        : `${noteFilter} AND (Expression:re:^${expressionPattern}$ OR RelatedExpression:re:${expressionPattern})`;
 
     const newQuery = `${noteFilter} AND is:new`;
 
@@ -77,7 +80,11 @@ export class AnkiConnect {
     const idsLists = await this.batchFindNotes(queries);
     const allIds = [...new Set(idsLists.flat())];
     const [allNotes] = await this.batchNotesInfo([allIds]);
-    const newNotes = withNewNotes ? (idsLists[idsLists.length - 1] ?? []) : [];
+    const newNoteIds = withNewNotes ? (idsLists[idsLists.length - 1] ?? []) : [];
+    const newNoteIdsSet = new Set(newNoteIds);
+    const newNotes: AnkiNote[] = withNewNotes
+      ? allNotes.filter((n) => newNoteIdsSet.has(n.noteId))
+      : [];
 
     const kanjiListResult: Record<string, AnkiNote[]> = {};
     const readingListResult: Record<string, AnkiNote[]> = {};

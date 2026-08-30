@@ -217,7 +217,7 @@ const CIRCLED_NUMBERS = [
 /**
  * @typedef {Object} Options
  * @property {boolean} [defaultOpen = true]
- * @property {string} [collapseTitle = "Extra Info"]
+ * @property {string} [collapseTitle = "Дополнительная информация"]
  * @property {boolean} [showVisuallySimilar = true]
  * @property {boolean} [showComposedOf = true]
  * @property {boolean} [showUsedIn = true]
