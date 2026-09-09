@@ -3,26 +3,26 @@
 layout: home
 
 hero:
-  name: "Kiku"
-  text: "Feature-rich Anki notes, for Japanese learners."
-  tagline: A fully interactive Anki note type
+  name: "Kiku RU"
+  text: "Функциональные карточки Anki для изучения японского языка."
+  tagline: Полностью интерактивный тип заметки на русском языке
   image:
     src: /logo.png
-    alt: Kiku logo
+    alt: Логотип Kiku
   actions:
     - theme: brand
-      text: Getting Started
+      text: Начать работу
       link: /installation
 
 features:
-  - title: Built-in Themes
-    details: Instantly switch between 35 ready-to-use themes, ranging from light and to dark.
-  - title: Kanji Web
-    details: Explore notes that share the same or similar kanji, and quickly jump between related expressions.
-  - title: Settings Panel
-    details: Adjust your theme, font, size, and other configuration options directly within the note.
+  - title: Встроенные темы
+    details: Выбирайте одну из 35 готовых светлых и тёмных тем.
+  - title: Сеть кандзи
+    details: Находите заметки с теми же или похожими кандзи и быстро переходите между связанными выражениями.
+  - title: Панель настроек
+    details: Меняйте тему, шрифты, размеры и другие параметры прямо в карточке.
 ---
 
-## Live Demo
+## Интерактивный пример
 
 <KikuEmbed />

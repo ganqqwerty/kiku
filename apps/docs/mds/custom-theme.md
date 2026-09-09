@@ -2,18 +2,18 @@
 outline: deep
 ---
 
-# Custom Theme
+# Своя тема
 
-Open `_kiku_style.css` in your `collection.media` directory. you will find the following section:
+Откройте файл `_kiku_style.css` в каталоге `collection.media`. Найдите в нём этот раздел:
 
 ::: code-group
 
 ```css [_kiku_style.css]
-/* the rest of the file ... */
+/* остальная часть файла ... */
 
-/* Custom theme here */
+/* Своя тема */
 @layer custom {
-  /* Customize "light" theme here  */
+  /* Настройте светлую тему здесь */
   .card:has(> #qa, #content > #qa),
   #kiku-root[data-theme="light"],
   :host([data-dark-mode]) #kiku-root[data-theme-dark="light"],
@@ -51,11 +51,11 @@ Open `_kiku_style.css` in your `collection.media` directory. you will find the f
     --depth: 1;
     --noise: 0;
 
-    /* don't forget this extra color */
+    /* не забудьте про этот дополнительный цвет */
     --color-base-content-primary: var(--color-primary);
   }
 
-  /* Customize "dark" theme here  */
+  /* Настройте тёмную тему здесь */
   .card:has(> #qa, #content > #qa).nightMode,
   #kiku-root[data-theme="dark"],
   :host([data-dark-mode]) #kiku-root[data-theme-dark="dark"],
@@ -93,7 +93,7 @@ Open `_kiku_style.css` in your `collection.media` directory. you will find the f
     --depth: 1;
     --noise: 0;
 
-    /* don't forget this extra color */
+    /* не забудьте про этот дополнительный цвет */
     --color-base-content-primary: color-mix(
       in srgb,
       var(--color-primary) 50%,
@@ -102,14 +102,14 @@ Open `_kiku_style.css` in your `collection.media` directory. you will find the f
   }
 }
 
-/* the rest of the file ... */
+/* остальная часть файла ... */
 ```
 
 :::
 
-These are the default value for "light" and "dark" theme. You can customize them as you like.
-After saving the file, open the Kiku settings and click **Save**. This will update Kiku’s style template using the new modified `_kiku_style.css`.
+Это стандартные значения светлой и тёмной тем. Измените их по своему вкусу.
+После сохранения файла откройте настройки Kiku RU и нажмите **Сохранить**. Kiku RU обновит шаблон стилей из изменённого `_kiku_style.css`.
 
 ::: tip
-You can generate your own theme using the [daisyUI Theme Generator](https://daisyui.com/theme-generator/).
+Свою тему можно создать в [генераторе тем daisyUI](https://daisyui.com/theme-generator/).
 :::

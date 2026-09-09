@@ -15,6 +15,8 @@ const umamiScript: HeadConfig = [
 // TODO: PURE annotation to avoid Rollup warning https://github.com/vueuse/vueuse/pull/5388
 
 export default defineConfig({
+  lang: "ru-RU",
+  base: process.env.GITHUB_ACTIONS ? "/kiku/" : "/",
   vue: {
     template: {
       compilerOptions: {
@@ -23,9 +25,18 @@ export default defineConfig({
     },
   },
   srcDir: "mds",
-  title: "Kiku",
-  description: "Feature-rich, fully interactive Anki note type designed for Japanese learners.",
-  head: [["link", { rel: "icon", href: "/favicon.ico" }], umamiScript],
+  title: "Kiku RU",
+  description: "Интерактивный тип заметки Anki для изучения японского языка на русском.",
+  head: [
+    [
+      "link",
+      {
+        rel: "icon",
+        href: process.env.GITHUB_ACTIONS ? "/kiku/favicon.ico" : "/favicon.ico",
+      },
+    ],
+    umamiScript,
+  ],
   vite: {
     publicDir: "../public",
     plugins: [
@@ -37,47 +48,52 @@ export default defineConfig({
     ],
   },
   themeConfig: {
-    lastUpdated: {},
-    nav: [{ text: "Home", link: "/" }],
+    lastUpdated: { text: "Обновлено" },
+    docFooter: { prev: "Предыдущая страница", next: "Следующая страница" },
+    darkModeSwitchLabel: "Тема",
+    lightModeSwitchTitle: "Включить светлую тему",
+    darkModeSwitchTitle: "Включить тёмную тему",
+    sidebarMenuLabel: "Меню",
+    returnToTopLabel: "Наверх",
+    langMenuLabel: "Сменить язык",
+    skipToContentLabel: "Перейти к содержанию",
+    nav: [{ text: "Главная", link: "/" }],
     sidebar: [
       {
-        text: "Getting Started",
+        text: "Начало работы",
         items: [
-          { text: "Installation", link: "/installation" },
-          { text: "Updating Kiku", link: "/updating" },
-          { text: "Switching From Lapis", link: "/migration" },
+          { text: "Установка", link: "/installation" },
+          { text: "Обновление Kiku RU", link: "/updating" },
+          { text: "Переход с Lapis", link: "/migration" },
         ],
       },
       {
-        text: "Learn More",
+        text: "Подробнее",
         items: [
-          { text: "Features", link: "/features" },
-          { text: "Field Grouping", link: "/field-grouping" },
-          { text: "Related Expression", link: "/related-expression" },
-          { text: "Plugin", link: "/plugin" },
-          { text: "How Things Work", link: "/how-things-work" },
-          { text: "Development", link: "/development" },
+          { text: "Возможности", link: "/features" },
+          { text: "Группировка полей", link: "/field-grouping" },
+          { text: "Связанные выражения", link: "/related-expression" },
+          { text: "Плагины", link: "/plugin" },
+          { text: "Как устроен Kiku", link: "/how-things-work" },
+          { text: "Разработка", link: "/development" },
         ],
       },
       {
-        text: "Recipes",
+        text: "Рецепты",
         items: [
-          { text: "Add More External Links", link: "/add-more-external-links" },
-          { text: "Display Extra Fields", link: "/display-extra-fields" },
-          {
-            text: "Unblur Picture Automatically",
-            link: "/unblur-picture-automatically",
-          },
-          { text: "Random Font", link: "/random-font" },
-          { text: "Custom Dictionary Style", link: "/custom-dictionary-style" },
-          { text: "Custom Theme", link: "/custom-theme" },
-          {
-            text: "Custom Pitch Accent Color",
-            link: "/custom-pitch-accent-color",
-          },
+          { text: "Дополнительные внешние ссылки", link: "/add-more-external-links" },
+          { text: "Конфетти", link: "/confetti" },
+          { text: "Стиль словаря", link: "/custom-dictionary-style" },
+          { text: "Разделы окна кандзи", link: "/custom-kanji-info-extra" },
+          { text: "Цвет акцентных схем", link: "/custom-pitch-accent-color" },
+          { text: "Своя тема", link: "/custom-theme" },
+          { text: "Дополнительные поля", link: "/display-extra-fields" },
+          { text: "Префектуры Японии", link: "/japanese-prefectures" },
+          { text: "Случайный шрифт", link: "/random-font" },
+          { text: "Автоматическое снятие размытия", link: "/unblur-picture-automatically" },
         ],
       },
     ],
-    socialLinks: [{ icon: "github", link: "https://github.com/youyoumu/kiku" }],
+    socialLinks: [{ icon: "github", link: "https://github.com/ganqqwerty/kiku" }],
   },
 });

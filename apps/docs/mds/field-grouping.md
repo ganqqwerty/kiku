@@ -2,13 +2,13 @@
 outline: deep
 ---
 
-# Field Grouping
+# Группировка полей
 
-## Group Manually
+## Ручная группировка
 
-Suppose you already have a normal note with **Picture**, **Sentence**, and
-**SentenceAudio** fields like this:
-::: details Fields {open}
+Допустим, у вас уже есть обычная заметка с полями **Picture**, **Sentence** и
+**SentenceAudio**:
+::: details Поля {open}
 
 Picture:
 
@@ -30,14 +30,14 @@ SentenceAudio:
 
 :::
 
-<img src="/media/field-grouping-1.2.png" alt="field grouping normal" style="max-width: 100%;">
+<img src="/media/field-grouping-1.2.png" alt="Поля без группировки" style="max-width: 100%;">
 
 ---
 
-And you want to add a new **Picture**, **Sentence**, and **SentenceAudio** to the same note.
-Without grouping, it will look like this:
+Теперь вы хотите добавить в эту заметку ещё одно изображение, предложение и аудио.
+Без группировки поля будут выглядеть так:
 
-::: details Fields {open}
+::: details Поля {open}
 
 Picture:
 
@@ -64,7 +64,7 @@ SentenceAudio:
 
 :::
 
-The pictures will be paginated, while everything else will simply be appended.
+Изображения появятся на отдельных страницах, а остальные значения просто добавятся друг за другом.
 
 <video controls autoplay loop>
   <source src="/media/field-grouping-2.2.webm" type="video/webm" />
@@ -72,9 +72,9 @@ The pictures will be paginated, while everything else will simply be appended.
 
 ---
 
-Now, to group the fields together, all you need to do is add a `data-group-id` to the `<img>` tag, and wrap the new Sentence/SentenceAudio in a `<span>` with the same `data-group-id`.
+Чтобы связать поля, добавьте атрибут `data-group-id` в тег `<img>`. Новые значения Sentence и SentenceAudio оберните в `<span>` с тем же `data-group-id`.
 
-::: details Fields {open}
+::: details Поля {open}
 
 Picture:
 
@@ -103,27 +103,27 @@ SentenceAudio:
   <source src="/media/field-grouping-3.2.webm" type="video/webm" />
 </video>
 
-## More Info
+## Дополнительные правила
 
-- The `data-group-id` value should be a positive integer. Kiku will sort them in descending order.
-- If `data-group-id` is a [Unix Timestamp](https://www.unixtimestamp.com/) between year 2000 and 2100, it will be displayed as a date.
-- Each unique `data-group-id` will create a new page.
-- Anything without a `data-group-id` will be shown on the same page.
-- **SentenceFurigana**, **SentenceTranslation** and **MiscInfo** fields will also be grouped.
+- Значение `data-group-id` должно быть положительным целым числом. Kiku RU сортирует группы по убыванию.
+- Если `data-group-id` — [Unix-время](https://www.unixtimestamp.com/) между 2000 и 2100 годами, Kiku RU покажет его как дату.
+- Каждое уникальное значение `data-group-id` создаёт новую страницу.
+- Значения без `data-group-id` отображаются на одной странице.
+- Поля **SentenceFurigana**, **SentenceTranslation** и **MiscInfo** тоже поддерживают группировку.
 
-## Merge Context Button
+## Кнопка объединения контекста
 
-You can use Kiku's Merge Context button to merge fields from 2 different notes into one.
-The button is available on the top left corner when you visit nested notes.
+Кнопка объединения контекста переносит поля из двух заметок в одну.
+Она появляется в левом верхнем углу при переходе во вложенную заметку.
 
 <video controls>
   <source src="/media/merge-context.mp4" type="video/mp4" />
 </video>
 
-- AnkiConnect is required, and **Prefer AnkiConnect** must be enabled in the settings.
-- Ungrouped fields from both notes will be grouped with their own NoteID as the `data-group-id`.
-- Existing `data-group-id` will be preserved.
-- **Picture**, **Sentence**, **SentenceFurigana**, **SentenceTranslation**, **SentenceAudio**, **MiscInfo** and **Tag** will be merged.
-- If either note has empty **SentenceFurigana**, the target note's **SentenceFurigana** will be updated as empty.
-- Some special tags like `leech`, `marked`, `potential_leech` will not be added to the target note.
-- "Delete Root Note" option will be available when the root note is less than 1 day old. This option will delete the root note after merging.
+- Нужен AnkiConnect. В настройках должен быть включён параметр **Предпочитать AnkiConnect**.
+- Поля без группы из обеих заметок получат собственный NoteID в качестве `data-group-id`.
+- Существующие значения `data-group-id` сохранятся.
+- Объединяются поля **Picture**, **Sentence**, **SentenceFurigana**, **SentenceTranslation**, **SentenceAudio**, **MiscInfo** и **Tag**.
+- Если в одной из заметок поле **SentenceFurigana** пустое, оно останется пустым и в итоговой заметке.
+- Служебные теги `leech`, `marked` и `potential_leech` не переносятся в итоговую заметку.
+- Если корневая заметка создана меньше суток назад, доступен параметр **Удалить корневую заметку**. Он удаляет корневую заметку после объединения.

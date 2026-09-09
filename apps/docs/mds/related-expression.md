@@ -2,45 +2,45 @@
 outline: deep
 ---
 
-# Related Expression
+# Связанные выражения
 
-Related Expressions are displayed in the top-left corner of the card, allowing you to click them to jump to that card immediately.
+Связанные выражения показаны в левом верхнем углу карточки. Нажмите выражение, чтобы сразу перейти к его карточке.
 
-![Related Expression](/media/related-expression.png)
+![Связанные выражения](/media/related-expression.png)
 
 :::info
-On the front side, this section will show duplicate cards with different reading instead.
+На лицевой стороне этот раздел показывает дубликаты карточек с другим чтением.
 :::
 
-## How to Use
+## Как использовать
 
 <video controls>
   <source src="/media/related-expression.webm" type="video/webm" />
 </video>
 
-You can manually fill the **RelatedExpression** field with any comma- or semicolon-separated expressions.
+Заполните поле **RelatedExpression** вручную. Разделяйте выражения запятыми или точками с запятой.
 
-This is incredibly useful for linking cards you frequently confuse, or words that naturally form a conceptual set. For example:
+Так можно связать карточки, которые вы часто путаете, или объединить слова в смысловую группу. Например:
 
-- **Synophones / Visual Confusions:**
+- **Похожие по звучанию или написанию слова:**
   - Expression: 蕾 => RelatedExpression: 雷
   - Expression: 険悪 => RelatedExpression: 嫌悪
-- **Antonyms / Conceptual Sets:**
+- **Антонимы и смысловые группы:**
   - Expression: 雄 => RelatedExpression: 雌
   - Expression: 中盤 => RelatedExpression: 序盤、終盤
 
 :::tip
 
-- Expressions explicitly defined in the **RelatedExpression** field will be underlined.
-- You can use commas (`,` / `、`) or semicolons (`;` / `；`) as delimiters.
-- New cards will have a status indicator. This status indicator feature only works on Anki desktop.
+- Выражения из поля **RelatedExpression** подчёркнуты.
+- В качестве разделителей можно использовать запятые (`,` / `、`) и точки с запятой (`;` / `；`).
+- У новых карточек есть индикатор статуса. Он работает только в настольной версии Anki.
 
 :::
 
-## Fallback Behavior
+## Автоматическое дополнение
 
-If you leave the **RelatedExpression** field empty, the card automatically displays the **two most relevant items** from the kanji page based on the following priority:
+Если поле **RelatedExpression** пустое, карточка автоматически показывает **два самых подходящих выражения** со страницы кандзи. Kiku RU использует такой приоритет:
 
-1. Direct relationships (like Antonyms, Forms, and Referenced cards).
-2. General matches (like cards with the same reading or expression).
-3. The newest cards.
+1. Прямые связи: антонимы, формы слова и карточки со ссылками.
+2. Общие совпадения: карточки с тем же чтением или выражением.
+3. Самые новые карточки.

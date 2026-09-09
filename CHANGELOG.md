@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v2.1.0-ru.1] - 2026-09-09
+
+### Added
+
+- Полный перевод сайта документации на русский язык.
+- Публикация документации через GitHub Pages.
+- Русский пакет `Kiku_RU_v2.1.0.apkg` со значениями кандзи из Яркси.
+
+### Changed
+
+- Русская версия обновлена до актуальной ветки `main` исходного проекта после выпуска Kiku 2.1.0.
+- Ссылки на документацию, исходный код и выпуски ведут в русский форк.
+
 ## [v2.1.0] - 2026-07-30
 
 ### Added
@@ -113,7 +126,8 @@ Stable release. No changes from v2.0.0-beta.3.
 
 - `webFonts` and `volume` settings
 
-[Unreleased]: https://github.com/youyoumu/kiku/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/ganqqwerty/kiku/compare/v2.1.0-ru.1...HEAD
+[v2.1.0-ru.1]: https://github.com/ganqqwerty/kiku/releases/tag/v2.1.0-ru.1
 [v2.1.0]: https://github.com/youyoumu/kiku/compare/v2.0.0...v2.1.0
 [v2.0.0]: https://github.com/youyoumu/kiku/compare/v2.0.0-beta.3...v2.0.0
 [v2.0.0-beta.3]: https://github.com/youyoumu/kiku/compare/v2.0.0-beta.2...v2.0.0-beta.3

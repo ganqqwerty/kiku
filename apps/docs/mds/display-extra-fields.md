@@ -2,24 +2,24 @@
 outline: deep
 ---
 
-# Display Extra Fields
+# Дополнительные поля
 
-Suppose you have an extra field called **ExtraInfo** and you want to display it under the **Sentence** section on the back side.
+Допустим, у вас есть поле **ExtraInfo**. Вы хотите показать его под разделом **Sentence** на обратной стороне карточки.
 
-First, open the file named `_kiku_back.html` in your `collection.media` directory. The contents will look like this:
+Сначала откройте файл `_kiku_back.html` в каталоге `collection.media`. Его начало выглядит так:
 
 ::: code-group
 
 ```html [_kiku_back.html]
 <!-- Kiku Note v2.0.0
-This file is auto-generated. Any manual changes will be lost on save.
+Этот файл создаётся автоматически. Ручные изменения будут потеряны после сохранения.
 
-... rest of the file
+... остальная часть файла
 ```
 
 :::
 
-Add **ExtraInfo** inside a template element:
+Добавьте **ExtraInfo** внутрь элемента `template`:
 
 ::: code-group
 
@@ -27,19 +27,19 @@ Add **ExtraInfo** inside a template element:
 <template id="ExtraInfo">{{ExtraInfo}}</template>
 
 <!-- Kiku Note v2.0.0
-This file is auto-generated. Any manual changes will be lost on save.
+Этот файл создаётся автоматически. Ручные изменения будут потеряны после сохранения.
 
-... rest of the file
+... остальная часть файла
 ```
 
 :::
 
 ::: warning
-Do not modify the rest of the file, even with code formatters (such as [Prettier](https://prettier.io/)).
-The generated SSR template is sensitive to whitespaces and newlines.
+Не меняйте остальную часть файла даже с помощью форматтера, например [Prettier](https://prettier.io/).
+Созданный SSR-шаблон зависит от пробелов и переводов строк.
 :::
 
-Now you can include the **ExtraInfo** field in the **Sentence** component with `_kiku_plugin.js`:
+Теперь добавьте поле **ExtraInfo** в компонент **Sentence** через `_kiku_plugin.js`:
 
 ::: code-group
 
@@ -47,4 +47,4 @@ Now you can include the **ExtraInfo** field in the **Sentence** component with `
 <<< ../../../packages/note/plugins/display-extra-fields/_kiku_plugin.js [_kiku_plugin.js]
 :::
 
-Finally, open the Kiku settings and click **Save**. This will update Kiku’s Back template using the modified `_kiku_back.html`.
+Затем откройте настройки Kiku RU и нажмите **Сохранить**. Kiku RU обновит обратный шаблон из изменённого `_kiku_back.html`.

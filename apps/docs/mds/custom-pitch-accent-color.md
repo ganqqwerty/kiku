@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Custom Pitch Accent Color
+# Свои цвета акцентных схем
 
-Customize the color of each pitch accent type.
+Настройте цвет для каждого типа музыкального ударения.
 
 ::: code-group
 

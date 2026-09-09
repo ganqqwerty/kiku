@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Random Font
+# Случайный шрифт
 
-This will randomize the Japanese display font used for kanji and expressions.
+Плагин случайно выбирает японский акцидентный шрифт для кандзи и выражений.
 
 ::: code-group
 

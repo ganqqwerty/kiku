@@ -114,6 +114,13 @@ export class KikuHostDocs extends KikuHost {
 
     const ankiFields = {
       ...exampleFields,
+      SelectionText: "",
+      MainDefinition:
+        '<ol><li data-dictionary="Яркси">вклад; содействие; служение общему делу</li></ol>',
+      SentenceTranslation:
+        '<span data-group-id="11">Интересно, смогу ли я так хоть немного помочь миру.</span>' +
+        '<span data-group-id="10">В любом случае, если мы поможем поймать героя…</span>' +
+        "Чтобы помочь этому магазину…",
       ...Object.fromEntries(
         cardFieldNames.map((name) => [name, selectedField === name ? "x" : ""]),
       ),

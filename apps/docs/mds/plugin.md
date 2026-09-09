@@ -2,17 +2,17 @@
 outline: deep
 ---
 
-# Plugin
+# Плагины
 
-A Kiku plugin is a JavaScript module named `_kiku_plugin.js` located in your `collection.media` directory.
-This module must export a named variable called `plugin`.
-The type definitions for this module are available [here](https://github.com/youyoumu/kiku/blob/main/packages/note/plugins/plugin-types.ts).
+Плагин Kiku — это JavaScript-модуль `_kiku_plugin.js` в каталоге `collection.media`.
+Модуль должен экспортировать именованную переменную `plugin`.
+Типы для модуля доступны [в репозитории](https://github.com/ganqqwerty/kiku/blob/main/packages/note/plugins/plugin-types.ts).
 
 :::info
-In addition to the JavaScript module, there is also `_kiku_plugin.css` for custom styling.
+Для собственных стилей можно также создать файл `_kiku_plugin.css`.
 :::
 
 <<< ../../../packages/note/plugins/plugin-types.ts
 
-The plugin system is currently very basic, but more APIs will be added in the future.
-Check out the [examples](https://github.com/youyoumu/kiku/tree/main/packages/note/plugins) for more advanced usage.
+Система плагинов пока проста. В будущем в ней появятся новые API.
+Для более сложных сценариев изучите [примеры](https://github.com/ganqqwerty/kiku/tree/main/packages/note/plugins).

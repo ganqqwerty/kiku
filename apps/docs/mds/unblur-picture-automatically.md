@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Unblur Picture Automatically
+# Автоматическое снятие размытия
 
-This will unblur the picture during non-working time.
+Плагин снимает размытие с изображения во время, когда карточка не отвечает на действия пользователя.
 
 <!-- prettier-ignore -->
 <<< ../../../packages/note/plugins/unblur-picture-automatically/_kiku_plugin.js

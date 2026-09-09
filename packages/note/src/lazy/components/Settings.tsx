@@ -156,6 +156,8 @@ export function Settings() {
   );
 }
 
+const russianReleaseVersion = "2.1.0-ru.1";
+
 function KikuIcon() {
   const [$$latestVersion] = createResource(async () => {
     const cached = sessionStorage.getItem(constants.key["kiku-latest-version"]);
@@ -165,7 +167,7 @@ function KikuIcon() {
     if (checked) return null;
     sessionStorage.setItem(constants.key["kiku-latest-version-checked"], "true");
 
-    const res = await fetch("https://api.github.com/repos/youyoumu/kiku/releases/latest");
+    const res = await fetch("https://api.github.com/repos/ganqqwerty/kiku/releases/latest");
     if (!res.ok) return null;
     const data = await res.json();
     const tag_name = data?.tag_name;
@@ -189,7 +191,9 @@ function KikuIcon() {
 
 function KikuVersion(props: { latestVersion?: string | null }) {
   const $version = createMemo(() =>
-    props.latestVersion && props.latestVersion !== constants.VERSION ? props.latestVersion : null,
+    props.latestVersion && props.latestVersion !== russianReleaseVersion
+      ? props.latestVersion
+      : null,
   );
   return (
     <>
@@ -199,15 +203,15 @@ function KikuVersion(props: { latestVersion?: string | null }) {
         data-tip={$version() ? `Доступно обновление: v${$version()}` : undefined}
       >
         <a
-          href="https://github.com/youyoumu/kiku/releases/latest"
+          href="https://github.com/ganqqwerty/kiku/releases/latest"
           target="_blank"
           rel="noreferrer"
           class="text-sm"
         >
-          Kiku RU v{constants.VERSION}
+          Kiku RU v{russianReleaseVersion}
         </a>
         <a
-          href={`https://github.com/youyoumu/kiku/commit/${constants.COMMIT_SHA}`}
+          href={`https://github.com/ganqqwerty/kiku/commit/${constants.COMMIT_SHA}`}
           target="_blank"
           rel="noreferrer"
           class="text-xs"

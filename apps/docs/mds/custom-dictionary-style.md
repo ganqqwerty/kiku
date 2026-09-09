@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Custom Dictionary Style
+# Свой стиль словаря
 
-This will only show Jitendex example sentences on hover.
+Этот стиль показывает примеры предложений Jitendex только при наведении указателя.
 
 ::: code-group
 

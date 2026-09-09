@@ -2,9 +2,9 @@
 outline: deep
 ---
 
-# Add More External Links
+# Дополнительные внешние ссылки
 
-Add or customize external links on the bottom side of definitions section.
+Добавьте или измените внешние ссылки в нижней части раздела со значениями слова.
 
 ::: code-group
 

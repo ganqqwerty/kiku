@@ -36,6 +36,8 @@
     "package-ru": "CI=true vite build && CI=true vite-node ./script/generate-template.ts && CI=true vite-node ./script/package-ru.ts",
     "import-yarxi": "node ./preprocess/import-yarxi-from-anki-mcp.ts",
     "localize-db-ru": "node ./preprocess/localize-kiku-db-ru.ts",
+    "plugin:symlink": "vite-node ./script/plugin.ts symlink",
+    "plugin:copy": "vite-node ./script/plugin.ts copy",
     "update-tailwind-property": "node ./script/update-tailwind-property.ts"
   },
   "dependencies": {

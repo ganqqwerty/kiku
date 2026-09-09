@@ -2,34 +2,34 @@
 outline: deep
 ---
 
-# Updating Kiku
+# Обновление Kiku RU
 
-::: tip TLDR
+::: tip КРАТКО
 
-1. **Download** the latest `.apkg` from [Releases](https://github.com/youyoumu/kiku/releases).
-2. **Clean** existing files via `Tools` > `Kiku Note Manager` > **Delete Kiku files**.
-3. **Import** the new `.apkg` into Anki.
-4. **Sync** by opening the Kiku settings page and clicking **Save**.
+1. **Скачайте** свежий `.apkg` со страницы [выпусков](https://github.com/ganqqwerty/kiku/releases).
+2. **Удалите** старые файлы через `Инструменты` → `Kiku Note Manager` → **Delete Kiku files**.
+3. **Импортируйте** новый `.apkg` в Anki.
+4. **Синхронизируйте** шаблоны: откройте настройки Kiku RU и нажмите **Сохранить**.
 
 :::
 
-::: info REQUIREMENT
-Anki **25.09** or later is required. Please ensure your Anki version is up to date before proceeding.
+::: info ТРЕБОВАНИЕ
+Нужна версия Anki **25.09** или новее. Перед обновлением обновите Anki.
 :::
 
-## 1. Download
+## 1. Скачивание
 
-Download the latest `Kiku_v*.apkg` from the [Release page](https://github.com/youyoumu/kiku/releases).
+Скачайте свежий `Kiku_RU_v*.apkg` со [страницы выпусков](https://github.com/ganqqwerty/kiku/releases).
 
-## 2. Clean Existing Files
+## 2. Удаление старых файлов
 
-Anki will not overwrite files that already exist ([tracked issue](https://github.com/ankitects/anki/issues/4491)). To ensure a successful update, you must delete your existing [Kiku files](./how-things-work.md#kiku-files) before importing the new version.
+Anki не заменяет некоторые существующие файлы ([известная проблема](https://github.com/ankitects/anki/issues/4491)). Перед импортом удалите старые [файлы Kiku](./how-things-work.md#файлы-kiku).
 
-::: tip Fast Cleanup
-You can quickly delete all Kiku files while preserving your settings via the Kiku Note Manager:
-Go to **Tools** > **Kiku Note Manager** > **Delete Kiku files**.
+::: tip Быстрая очистка
+Kiku Note Manager может удалить файлы Kiku и сохранить настройки.
+Выберите **Инструменты** → **Kiku Note Manager** → **Delete Kiku files**.
 
-This will automatically keep your:
+Дополнение сохранит эти файлы:
 
 - `_kiku_config.json`
 - `_kiku_plugin.js`
@@ -37,12 +37,12 @@ This will automatically keep your:
 
 :::
 
-## 3. Import
+## 3. Импорт
 
-Import the `.apkg` into Anki. When prompted, ensure your settings match the options shown below:
+Импортируйте `.apkg` в Anki. Проверьте параметры в окне импорта по изображению:
 
-![Import Options](/media/import-options.png)
+![Параметры импорта](/media/import-options.png)
 
-::: info Final Step
-After the import is complete, open the **Settings** page and click **Save**. This synchronizes your Front/Back/Styling templates with your current configuration.
+::: info Последний шаг
+После импорта откройте страницу **Настройки** и нажмите **Сохранить**. Kiku RU обновит лицевой шаблон, обратный шаблон и стили с учётом текущих настроек.
 :::

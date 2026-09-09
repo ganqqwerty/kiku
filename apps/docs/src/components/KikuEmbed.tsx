@@ -18,7 +18,9 @@ export default defineComponent({
       import.meta.env.SSR ? true : document.documentElement.classList.contains("dark"),
     );
     const hostRef = ref<HTMLElement | null>(null);
-    const toggleLabel = computed(() => (side.value === "front" ? "Show back" : "Show front"));
+    const toggleLabel = computed(() =>
+      side.value === "front" ? "Показать обратную сторону" : "Показать лицевую сторону",
+    );
 
     function toggleSide(): void {
       side.value = side.value === "front" ? "back" : "front";
@@ -85,7 +87,7 @@ export default defineComponent({
               onChange={() => (selectedField.value = "")}
               style={{ margin: 0 }}
             />
-            <span>Default</span>
+            <span>Обычная карточка</span>
           </label>
           {cardFieldNames.map((fieldName) => (
             <label
