@@ -25,6 +25,14 @@ export function vitePluginCopyKikuAssets() {
           src: paths["@note/template/_kiku_plugin.js"],
           file: "_kiku_plugin.js",
         },
+        {
+          src: paths["@note/template/_kiku_plugin.css"],
+          file: "_kiku_plugin.css",
+        },
+        {
+          src: paths["@note/dist/_kiku_worker.js"],
+          file: "_kiku_worker.js",
+        },
       ];
       for (const asset of assets) {
         const src = asset.src;

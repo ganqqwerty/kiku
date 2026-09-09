@@ -119,8 +119,6 @@ export default defineComponent({
           style={{
             zIndex: 10,
             position: "relative",
-            maxHeight: "75vh",
-            overflow: "auto",
             borderRadius: "0.5rem",
             boxShadow: "0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a",
           }}

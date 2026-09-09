@@ -63,7 +63,6 @@ export class KikuHostDocs extends KikuHost {
 
     root.id = "kiku-root";
     root.part = "root";
-    root.style.minHeight = "720px";
     root.dataset.blurNsfw = "true";
     root.dataset.modVertical = "false";
     root.dataset.pictureOnFront = "false";
@@ -111,6 +110,10 @@ export class KikuHostDocs extends KikuHost {
     this.now = performance.now();
     const isDark = document.documentElement.classList.contains("dark");
     const selectedField = this.getAttribute("selected-field") ?? "";
+    const assetsPath = new URL(import.meta.env.BASE_URL, window.location.origin).href.replace(
+      /\/$/,
+      "",
+    );
 
     const ankiFields = {
       ...exampleFields,
@@ -121,6 +124,7 @@ export class KikuHostDocs extends KikuHost {
         '<span data-group-id="11">Интересно, смогу ли я так хоть немного помочь миру.</span>' +
         '<span data-group-id="10">В любом случае, если мы поможем поймать героя…</span>' +
         "Чтобы помочь этому магазину…",
+      Picture: "",
       ...Object.fromEntries(
         cardFieldNames.map((name) => [name, selectedField === name ? "x" : ""]),
       ),
@@ -142,6 +146,7 @@ export class KikuHostDocs extends KikuHost {
         themeDark: "dark",
       },
       isAnkiWeb: true,
+      assetsPath,
       workerPath: kikuWorkerUrl,
       initialDarkMode: isDark,
       config: (defaultConfig) => ({ ...defaultConfig }),
@@ -156,7 +161,7 @@ export class KikuHostDocs extends KikuHost {
       const kikuCSS = await import("@repo/note/_kiku.css?inline");
       kikuCSSStyleSheet.replaceSync(kikuCSS.default);
     } else {
-      const kikuCssRes = await fetch("/_kiku.css");
+      const kikuCssRes = await fetch(`${import.meta.env.BASE_URL}_kiku.css`);
       const kikuCss = await kikuCssRes.text();
       kikuCSSStyleSheet.replaceSync(kikuCss);
     }
